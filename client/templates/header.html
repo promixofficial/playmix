@@ -1,0 +1,17 @@
+<md-fab-speed-dial md-open="isOpen" md-direction="{{selectedDirection}}"
+                         ng-class="selectedMode">
+        <md-fab-trigger>
+          <md-button aria-label="menu" class="md-fab md-warn">
+            <md-icon class="fa fa-bars action-icon"></md-icon>
+          </md-button> 
+        </md-fab-trigger>
+        
+        <md-fab-actions>
+          <md-button ng-click="SectionsManager.List.toggle()" aria-label="Lists" class="md-fab md-raised md-mini">
+            <md-icon class="fa fa-list-ul action-icon" aria-label="Lists"></md-icon>
+          </md-button>
+          <md-button ng-click="SectionsManager.Playlist.toggle()" aria-label="PlayList" class="md-fab md-raised md-mini">
+            <md-icon class="fa fa-youtube-play action-icon" aria-label="PlayList"></md-icon>
+          </md-button>
+        </md-fab-actions>
+      </md-fab-speed-dial>
