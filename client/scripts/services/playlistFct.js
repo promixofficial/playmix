@@ -50,10 +50,11 @@ angular.module("playMixApp")
           }
         },
         pause: function(){
-          this.sendControlEvent(YT_event.PAUSE)  
+          this.sendControlEvent(YT_event.PAUSE);
         },
         stop: function(){
-          this.sendControlEvent(YT_event.STOP)
+          this.sendControlEvent(YT_event.STOP);
+          PlaylistSection.scroll();
         },
         select: function(media){
           if(media){
@@ -63,10 +64,12 @@ angular.module("playMixApp")
         selectNext: function(){
           var index = !this.isLast ? this.selectedIndex+1 : 0;
           this.select(this.list[index]);
-        },
+          PlaylistSection.scrollToVideo(index);
+        }, 
         selectPrevious: function(){
           var index = !this.isFirst ? this.selectedIndex-1 : this.listLength-1;
           this.select(this.list[index]);
+          PlaylistSection.scrollToVideo(index);
         },
         addVideo: function(video){
           var playlist = this.list;
@@ -137,6 +140,20 @@ angular.module("playMixApp")
             },100);
         }
     };
+    
+    var PlaylistSection = {
+      get element(){ 
+        return document.getElementsByClassName('pmx-playlist-section')[0];
+      },
+      scroll: function(top){
+        this.element.scrollTop = top || 0;
+      },
+      scrollToVideo: function(videoIndex){
+        var headerHeight = 148,
+          videoHeight = 88;
+        this.scroll( headerHeight + ((videoIndex || 0) * videoHeight) );
+      }
+    }
     
   
   return Playlist;

@@ -56,18 +56,39 @@
     }
 }
 
-.pmx-lists-section, .pmx-playlist-section{
-    @include window-small{
-        display: none;
+@media (max-height : 200px) {
+    .pmx-lists-section, .pmx-playlist-section{
+        display: none; 
     }
 }
+ 
+.pmx-lists-section, .pmx-playlist-section{
+    @include window-small{ 
+        display: none;
+    } 
+}
+
+.pmx-playlist-section{
+    z-index: 75;
+    @include window-medium{ 
+        display: none;
+    } 
+}
+
+@media (max-height : 200px), (max-width : $mq-medium) {
+    .pmx-menu-btn-playlist{
+        opacity: 0.5;
+        pointer-events: none; 
+    }        
+}
+
 
 .pmx-lists-section, .pmx-lists-section.ng-enter.ng-enter-active{
     position: absolute;
     z-index: 60;
     width: 50%;
     transform-origin: left;
-}
+} 
 
 .pmx-player-section{
     overflow: hidden;
