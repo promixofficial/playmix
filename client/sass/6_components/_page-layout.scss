@@ -9,6 +9,13 @@
     }
 } 
 
+
+@media (max-height : 200px){
+    .pmx-app-header{
+        display: none;
+    }
+}
+
 .pmx-app-header{
     position: absolute;
     top: 0;
@@ -75,7 +82,8 @@
     } 
 }
 
-@media (max-height : 200px), (max-width : $mq-medium) {
+
+@media (max-width : $mq-medium) {
     .pmx-menu-btn-playlist{
         opacity: 0.5;
         pointer-events: none; 
