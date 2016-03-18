@@ -19,6 +19,10 @@
         opacity: 1;
         transform: opacity 0.8s ease;
     }
+    
+    &:hover .player-btn{
+        opacity: 1;
+    }
 }
 
 
@@ -27,15 +31,18 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    transition: top 0.5s ease;
+    transition: all 0.5s ease;
+    opacity: 0;
     .fa{
         font-size: 25px;
         color: #E8E8E8;
     }
 }
 @media (max-height : 100px){
-    .player-section-container iframe{
-        opacity: 0.5;
+    .player-section-container {
+        iframe{
+            opacity: 0.5;
+        }
     }
 }
 @media (max-height : 180px){
