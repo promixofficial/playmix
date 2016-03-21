@@ -146,7 +146,9 @@ angular.module("playMixApp")
         return document.getElementsByClassName('pmx-playlist-section')[0];
       },
       scroll: function(top){
-        this.element.scrollTop = top || 0;
+        if(this.element){
+          this.element.scrollTop = top || 0; 
+        }
       },
       scrollToVideo: function(videoIndex){
         var headerHeight = 148,
