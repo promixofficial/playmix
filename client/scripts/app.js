@@ -11,6 +11,7 @@ angular.module('playMixApp', ['ngMaterial', 'angular-sortable-view','angularResi
 /* SERVICES
 *************************/
 require("./services/utilsFct"); 
+require("./services/searchFct"); 
 require("./services/listFct"); 
 require("./services/playlistFct"); 
 

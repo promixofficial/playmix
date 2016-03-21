@@ -67,12 +67,12 @@ html, body{
 }
 
 @media (max-height : 200px) {
-    .pmx-lists-section, .pmx-playlist-section{
+    .pmx-lists-section, .pmx-playlist-section, .pmx-search-section{
         display: none; 
     }
 }
  
-.pmx-lists-section, .pmx-playlist-section{
+.pmx-lists-section, .pmx-playlist-section, .pmx-search-section{
     @include window-small{ 
         display: none;
     } 

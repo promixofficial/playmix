@@ -20,7 +20,10 @@
             </md-button>
             <md-button class="md-icon-button md-primary" ng-click="Playlist.select(item); Playlist.play();$event.stopPropagation();" aria-label="Play">
               <i class="fa fa-play"></i>
-            </md-button>
+            </md-button> 
+            <md-button class="md-icon-button md-primary" ng-click="Lists.addVideo(item); $event.stopPropagation();" aria-label="Add to List">
+              <i class="fa fa-save"></i>
+            </md-button> 
             
             </h4>
         </div>

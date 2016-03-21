@@ -1,7 +1,7 @@
 "use strict"
 
 angular.module("playMixApp")
-.controller('mainCtrl', function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct) {
+.controller('mainCtrl', function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct) {
 
 
       $scope.topDirections = ['left', 'up'];
@@ -27,6 +27,8 @@ angular.module("playMixApp")
       }
   });
   
+  $scope.Search = searchFct;
+  
   $scope.Lists = listFct;
 
   $scope.Playlist = playlistFct;
@@ -48,8 +50,9 @@ angular.module("playMixApp")
   
   $scope.SectionsManager = {
     List: new SectionManager(),
-    ListVideo: new SectionManager(),
+    ListVideo: new SectionManager(), 
     Playlist: new SectionManager(),
+    Search: new SectionManager(),
     LeftSection: {
       url: function(){
         var listUrl = 'templates/lists.html',

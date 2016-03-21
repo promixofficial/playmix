@@ -59,6 +59,7 @@
 	__webpack_require__(1); 
 	__webpack_require__(2); 
 	__webpack_require__(3); 
+	__webpack_require__(4); 
 	
 	/* FILTERS
 	*************************/
@@ -66,11 +67,11 @@
 	
 	/* DIRECTIVES
 	*************************/
-	__webpack_require__(4); 
+	__webpack_require__(5); 
 	
 	/* CONTROLLERS
 	*************************/
-	__webpack_require__(5);
+	__webpack_require__(6);
 
 /***/ },
 /* 1 */
@@ -90,6 +91,20 @@
 	                hours = (hours!=='00' ? `${hours}:` : "");
 	                 
 	                return ( hours + minutes + ":" + seconds );
+	            },
+	            YTTime: {
+	                PTToSeconds: function(ptTime){
+	                    var hoursReg = /PT(\d{0,})H\d{0,}M\d{0,}S/,
+	                        minutesReg = /PT(\d{0,}H)?(\d{0,})M\d{0,}S/,
+	                        secondsReg = /PT\d{0,}H?\d{0,}M(\d{0,})S/;
+	                    
+	                    var hours = parseInt( ptTime.match(hoursReg) ? ptTime.replace(hoursReg, '$1') : 0),
+	                        minutes = parseInt( ptTime.replace(minutesReg, '$2') ),
+	                        seconds = parseInt( ptTime.replace(secondsReg, '$1') ),
+	                        total = (hours * 3600) + (minutes * 60) + seconds;
+	                        
+	                    return total;
+	                }
 	            }
 	        }
 	    };
@@ -100,6 +115,74 @@
 
 /***/ },
 /* 2 */
+/***/ function(module, exports) {
+
+	angular.module("playMixApp")
+	.factory('searchFct', ['$http', 'utilsFct', function($http, utilsFct){
+	    
+	    var Search = {
+	        get key(){
+	            return 'AIzaSyBNWIg9CEBpjpjakt9PMKGm-wu7miyc5yM';
+	        },
+	        searchText: "",
+	        lastSearch: "_", 
+	        videosId: [],
+	        list: [],
+	        get searchUrl(){
+	            return `https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=50&q=${this.searchText}&key=${this.key}`;
+	        },
+	        get videoListUrl(){
+	            return `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=${this.videosId.join(',')}&key=${this.key}`;    
+	        },
+	        fetch: function(callback){
+	            Search.videosId = [];
+	            if(this.searchText !== "" && this.searchText !== this.lastSearch){
+	                this.lastSearch = this.searchText;
+	                
+	                $http.get(this.searchUrl)
+	                    .then((response) =>{
+	                        response.data.items.forEach((item)=>{
+	                            Search.videosId.push(item.id.videoId);
+	                        }) 
+	                        Search.getVideos(callback);
+	                    })
+	            }
+	        },
+	        getVideos: function(callback){
+	            $http.get(this.videoListUrl)
+	                .then((response)=>{
+	                    var data = Search.processData(response.data);
+	                    callback && callback(data); 
+	                });
+	        },
+	        processData: function(response){
+	            var videos = [],
+	                timeToSeconds = utilsFct.Time.YTTime.PTToSeconds,
+	                secondsToReadable = utilsFct.Time.secondsToReadable;
+	                
+	            response.items.forEach(item => {
+	                var duration = timeToSeconds(item.contentDetails.duration);
+	                
+	                videos.push({
+	                   author: item.snippet.channelTitle,
+	                   duration: duration,
+	                   id: item.id,
+	                   prettyDuration: secondsToReadable(duration),
+	                   title: item.snippet.title,
+	                   url: `https://youtu.be/${item.id}`
+	                });
+	            });
+	            Search.list = videos;
+	            return videos;
+	        }
+	    };
+	    
+	    return Search; 
+	     
+	}]) 
+
+/***/ },
+/* 3 */
 /***/ function(module, exports) {
 
 	angular.module("playMixApp")
@@ -138,7 +221,7 @@
 	}]);
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	angular.module("playMixApp")
@@ -305,7 +388,7 @@
 	}]);
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	angular.module("playMixApp")
@@ -414,13 +497,13 @@
 	}]);
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	"use strict"
 	
 	angular.module("playMixApp")
-	.controller('mainCtrl', function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct) {
+	.controller('mainCtrl', function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct) {
 	
 	
 	      $scope.topDirections = ['left', 'up'];
@@ -446,6 +529,8 @@
 	      }
 	  });
 	  
+	  $scope.Search = searchFct;
+	  
 	  $scope.Lists = listFct;
 	
 	  $scope.Playlist = playlistFct;
@@ -467,8 +552,9 @@
 	  
 	  $scope.SectionsManager = {
 	    List: new SectionManager(),
-	    ListVideo: new SectionManager(),
+	    ListVideo: new SectionManager(), 
 	    Playlist: new SectionManager(),
+	    Search: new SectionManager(),
 	    LeftSection: {
 	      url: function(){
 	        var listUrl = 'templates/lists.html',
