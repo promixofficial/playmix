@@ -22,6 +22,9 @@ angular.module("playMixApp")
         get isLast(){
           return (this.selectedIndex+1 === this.listLength);
         },
+        get lastPlayedIndex(){
+          return storageFct.getItem('lastPlayedIndex') || 0;
+        },
         sendControlEvent : function (ctrlEvent) {
           $rootScope.$broadcast(ctrlEvent);
         },
@@ -58,7 +61,13 @@ angular.module("playMixApp")
         },
         select: function(media){
           if(media){
-            this.selected = media;
+            if(typeof media === 'object'){
+              this.selected = media;
+              storageFct.setItem('lastPlayedIndex', this.list.indexOf(media)); 
+            }else{
+              this.selected = this.list[media];
+              storageFct.setItem('lastPlayedIndex', media);
+            }
           }
         },
         selectNext: function(){

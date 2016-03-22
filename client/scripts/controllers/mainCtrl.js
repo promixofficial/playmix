@@ -32,6 +32,7 @@ angular.module("playMixApp")
   $scope.Lists = listFct;
 
   $scope.Playlist = playlistFct;
+  $scope.Playlist.select($scope.Playlist.lastPlayedIndex);
   
   class SectionManager{
     constructor(){
