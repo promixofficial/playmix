@@ -1,5 +1,5 @@
 angular.module("playMixApp")
-.factory('playlistFct', ['$rootScope','$timeout','YT_event','utilsFct', function($rootScope,$timeout, YT_event, utilsFct){
+.factory('playlistFct', ['$rootScope','$timeout','YT_event','utilsFct', 'storageFct', function($rootScope,$timeout, YT_event, utilsFct, storageFct){
     
     var Playlist = {
         selected: null,
@@ -7,8 +7,8 @@ angular.module("playMixApp")
         isLooping: true,
         playerStatus: "NOT PLAYING",
         YT_EVENT: YT_event,
-        list: [],
-        idIndex: {},
+        list: storageFct.getItem('playlist') || [],
+        idIndex:storageFct.getItem('playlist_idIndex') ||  {},
         totalTime: "00:00",
         get listLength(){ 
           return this.list.length;  
@@ -77,6 +77,8 @@ angular.module("playMixApp")
             this.idIndex[video.id] = true;
             playlist.push(angular.copy(video));
             this.updateTotalTime();
+            
+            this.onChangeList();
           }
         },
         removeVideo: function(video){
@@ -86,12 +88,16 @@ angular.module("playMixApp")
             this.idIndex[video.id] = null;
             playlist.splice(index, 1);
             this.updateTotalTime();
+            
+            this.onChangeList();
           }
         },
         setPlaylist: function(playlist){ 
           this.list = playlist.slice(0);
           this.setIdIndex();
           this.updateTotalTime(); 
+          
+          this.onChangeList();
         },
         clearPlaylist: function(){
           this.clearIdIndex();
@@ -119,6 +125,10 @@ angular.module("playMixApp")
         },
         clearIdIndex: function(){
           this.idIndex = {};  
+        },
+        onChangeList: function(){
+          storageFct.setItem('playlist', this.list);
+          storageFct.setItem('playlist_idIndex', this.idIndex);
         },
         onEnd: function(){
           if(!this.isRepeat){

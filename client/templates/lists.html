@@ -10,7 +10,7 @@
   
   <md-content layout-padding class="pmx-list-container">
     
-    <md-list sv-root sv-part="Lists.playlists" class="pmx-list" >
+    <md-list sv-root sv-on-sort="Lists.onChangeList()" sv-part="Lists.playlists" class="pmx-list" >
       <md-list-item class="md-3-line pmx-list-item" sv-element ng-repeat="list in Lists.playlists" ng-click="Lists.select(list);SectionsManager.ListVideo.open();" >
         <div class="md-list-item-text" style="padding: 0 10px;" layout="column">
           

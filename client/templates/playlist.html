@@ -8,7 +8,7 @@
     {{Playlist.totalTime}}
   </md-toolbar>
   <md-content layout-padding class="pmx-list-container">
-     <md-list sv-root sv-part="Playlist.list" class="pmx-list" >
+     <md-list sv-root sv-on-sort="Playlist.onChangeList()" sv-part="Playlist.list" class="pmx-list" >
       <md-list-item class="md-3-line pmx-list-item"  sv-element ng-class="{'list-item-is-selected':(Playlist.selectedIndex===$index)}" ng-repeat="item in Playlist.list" ng-click="Playlist.select(item)">
         <img draggable="false" class="md-avatar pmx-list-image" ng-src="https://img.youtube.com/vi/{{::item.id}}/mqdefault.jpg"  />
         <div class="md-list-item-text pmx-list-info" layout="column">

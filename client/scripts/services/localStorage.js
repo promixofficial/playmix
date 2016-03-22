@@ -10,6 +10,7 @@ angular.module("playMixApp")
             return value;
         },
         setItem: function(itemName, value){
+            value = (typeof value === 'object' ? JSON.stringify(value) : value);
             localStorage[itemName] = value;
         },
         removeItem: function(itemName){
@@ -25,7 +26,6 @@ angular.module("playMixApp")
             return value;
         }
     };
-    
-  
-  return Storage;
+
+    return Storage;
 }]);
