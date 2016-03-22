@@ -12,12 +12,13 @@
         </md-button>
     </div> 
   </md-toolbar>
-  <md-content layout-padding> 
-    
-    <md-list>
-      <md-list-item class="md-3-line"  ng-repeat="item in Search.list">
-        <img draggable="false" class="md-avatar" ng-src="https://img.youtube.com/vi/{{::item.id}}/mqdefault.jpg"  />
-        <div class="md-list-item-text" layout="column">
+  
+  
+  <md-content layout-padding class="pmx-list-container"> 
+    <md-list class="pmx-list" >
+      <md-list-item class="md-3-line pmx-list-item"  ng-repeat="item in Search.list">
+        <img draggable="false" class="md-avatar pmx-list-image" ng-src="https://img.youtube.com/vi/{{::item.id}}/mqdefault.jpg"  />
+        <div class="md-list-item-text pmx-list-info" layout="column">
           <h3>{{ ::item.title }}</h3>
           <h4> 
             {{ ::item.prettyDuration }} 

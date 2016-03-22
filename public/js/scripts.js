@@ -122,12 +122,12 @@
 	    
 	    var Search = {
 	        get key(){
-	            return 'AIzaSyBNWIg9CEBpjpjakt9PMKGm-wu7miyc5yM';
+	            return '';
 	        },
 	        searchText: "",
 	        lastSearch: "_", 
 	        videosId: [],
-	        list: [],
+	        list: [{"title":"I Have A Dream-Abba asf iouahf iuoahdf sioh faoihd fioaso dfahuio f","id":"Ad9U3h2UmcA","url":"https://youtu.be/Ad9U3h2UmcA","author":"tranquilatus","duration":285,"prettyDuration":"04:45"},{"title":"I Have A Dream-Abba","id":"Ad9U3h2UmcA","url":"https://youtu.be/Ad9U3h2UmcA","author":"tranquilatus","duration":285,"prettyDuration":"04:45"}],
 	        get searchUrl(){
 	            return `https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=50&q=${this.searchText}&key=${this.key}`;
 	        },
