@@ -94,12 +94,14 @@ html, body{
 }
 
 
-.pmx-lists-section, .pmx-lists-section.ng-enter.ng-enter-active{
+.pmx-lists-section, .pmx-lists-section.ng-enter.ng-enter-active,
+.pmx-search-section, .pmx-search-section.ng-enter.ng-enter-active{
     position: absolute;
     z-index: 60;
     width: 50%;
     transform-origin: left;
 } 
+
 
 .pmx-player-section{
     overflow: hidden;
