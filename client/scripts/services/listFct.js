@@ -27,7 +27,26 @@ angular.module("playMixApp")
           if(~index){
             playlist.splice(index, 1);
           }
+        },
+        
+        editingList: null, 
+        addList: function(){
+          this.playlists.unshift({name: `List ${this.playlists.length+1}`, playlist: []});
+        },
+        removeList: function(list){
+          var index = this.playlists.indexOf(list);
+          this.playlists.splice(index, 1);
+        },
+        editList: function(list){
+          this.editingList = list;
+        },
+        saveList: function(){
+          this.editingList = null;
+        },
+        isEditing: function(list){
+          return (this.editingList === list);
         }
+        
     }; 
     
     return List;
