@@ -2,4 +2,10 @@
   <button ng-click="Playlist.pause()">Send Pause</button> 
   <button ng-click="Playlist.stop()">Send Stop</button> 
 
-  <p>Player status is: {{Playlist.playerStatus}}</p--><md-button aria-label="Previous" ng-if="Playlist.listLength > 1" ng-click="Playlist.play('previous')" class="md-primary player-btn player-btn-previous"><i class="fa fa-step-backward"></i></md-button><md-button aria-label="Play" ng-click="Playlist.play()" ng-if="Playlist.playerStatus !== 'PLAYING'" class="md-primary player-btn player-btn-play-pause"><i class="fa fa-play"></i></md-button><md-button aria-label="Pause" ng-click="Playlist.pause()" ng-if="Playlist.playerStatus === 'PLAYING'" class="md-primary player-btn player-btn-play-pause"><i class="fa fa-pause"></i></md-button><md-button aria-label="Next" ng-if="Playlist.listLength > 1" ng-click="Playlist.play('next')" class="md-primary player-btn player-btn-next"><i class="fa fa-step-forward"></i></md-button></div>
+  <p>Player status is: {{Playlist.playerStatus}}</p--><md-button aria-label="Previous" ng-if="Playlist.listLength > 1" ng-click="Playlist.play('previous')" class="md-primary player-btn player-btn-previous"><i class="fa fa-step-backward"></i></md-button><!--md-button  aria-label="Play"  ng-click="Playlist.play()" ng-if="Playlist.playerStatus !== 'PLAYING'" class="md-primary player-btn player-btn-play-pause">
+      <i class="fa fa-play" ></i>
+    </md-button>
+    
+    <md-button  aria-label="Pause"  ng-click="Playlist.pause()" ng-if="Playlist.playerStatus === 'PLAYING'" class="md-primary player-btn player-btn-play-pause">
+      <i class="fa fa-pause" ></i>
+    </md-button--><md-button aria-label="Next" ng-if="Playlist.listLength > 1" ng-click="Playlist.play('next')" class="md-primary player-btn player-btn-next"><i class="fa fa-step-forward"></i></md-button></div>
