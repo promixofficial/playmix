@@ -14,12 +14,12 @@
  
 <body ng-app="playMixApp" >
 
-<div ng-controller="mainCtrl" layout="column" class="pmx-app-container" ng-cloak>
+<div ng-controller="mainCtrl" class="pmx-app-container" ng-cloak>
   <header class="pmx-app-header" ng-include="'templates/header.html'" ></header>
   <section class="pmx-app-body">
     <div class="pmx-app-section pmx-lists-section" ng-include="SectionsManager.LeftSection.url()" ng-if="SectionsManager.Search.isClosed && !SectionsManager.LeftSection.isClosed()" ></div>
     <!--div ng-include="'templates/player.html'"  resizable r-directions="['right']" r-flex="true" ></div-->
-    <div class="pmx-app-section pmx-search-section" ng-include="'templates/search.html'" ></div>
+    <div class="pmx-app-section pmx-search-section" ng-include="'templates/search.html'" ng-if="!SectionsManager.Search.isClosed" ></div>
     <div class="pmx-app-section pmx-player-section" ng-include="'templates/player.html'" ></div> 
     <div class="pmx-app-section pmx-playlist-section" ng-include="'templates/playlist.html'" ng-if="!SectionsManager.Playlist.isClosed"  ></div> 
   </section>

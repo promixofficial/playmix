@@ -1,7 +1,6 @@
 .pmx-yt-container {
-    position: relative;
     width: 100%;
-    height: 0;
+    height: 100%;
     padding-bottom: 56.25%;
     
     & > iframe {
@@ -14,6 +13,7 @@
 }
 
 .player-section-container{
+    height: 100%;
     position: relative;
     iframe{
         opacity: 1;
