@@ -164,7 +164,7 @@
 	        searchText: "",
 	        lastSearch: "_", 
 	        videosId: [],
-	        list: [{"title":"I Have A Dream-Abba asf iouahf iuoahdf sioh faoihd fioaso dfahuio f","id":"Ad9U3h2UmcA","url":"https://youtu.be/Ad9U3h2UmcA","author":"tranquilatus","duration":285,"prettyDuration":"04:45"},{"title":"I Have A Dream-Abba","id":"Ad9U3h2UmcA","url":"https://youtu.be/Ad9U3h2UmcA","author":"tranquilatus","duration":285,"prettyDuration":"04:45"}],
+	        list: [],
 	        get searchUrl(){
 	            return `https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=50&q=${this.searchText}&key=${this.key}`;
 	        },
@@ -228,8 +228,22 @@
 	    var List = {
 	        selected: null,
 	        playlists: [],
+	        get selectedIndex(){
+	          return this.playlists.indexOf(this.selected); 
+	        },
+	        get lastSelectedListIndex(){
+	          var lastIndex = storageFct.getItem('lastSelectedListIndex') || 0;
+	          return (lastIndex !== -1 ? lastIndex : 0);
+	        },
 	        select: function(playlist){
-	          this.selected = playlist; 
+	          if(playlist !== undefined){
+	            if(typeof playlist === 'object'){
+	              this.selected = playlist;  
+	            }else{
+	              this.selected = this.playlists[playlist];
+	            }
+	            this.setLastSelectedListIndex();  
+	          }
 	        },
 	        addVideo: function(video){
 	          var playlist = this.selected.playlist;
@@ -269,6 +283,10 @@
 	        isEditing: function(list){
 	          return (this.editingList === list);
 	        },
+	        setLastSelectedListIndex: function(){
+	          var lastIndex = this.selectedIndex;
+	          storageFct.setItem('lastSelectedListIndex', (lastIndex !== -1 ? lastIndex : 0));
+	        },
 	        
 	        
 	        onChangeList: function(list){
@@ -276,6 +294,10 @@
 	            this.saveList(list);  
 	          }else{
 	            this.saveLists();
+	          }
+	          this.setLastSelectedListIndex();
+	          if(this.selectedIndex === -1){
+	            this.select(0);
 	          }
 	        },
 	        getLists: function(){
@@ -346,7 +368,8 @@
 	          return (this.selectedIndex+1 === this.listLength);
 	        },
 	        get lastPlayedIndex(){
-	          return storageFct.getItem('lastPlayedIndex') || 0;
+	          var lastIndex = storageFct.getItem('lastPlayedIndex') || 0;
+	          return (lastIndex !== -1 ? lastIndex : 0);
 	        },
 	        sendControlEvent : function (ctrlEvent) {
 	          $rootScope.$broadcast(ctrlEvent);
@@ -383,14 +406,13 @@
 	          PlaylistSection.scroll();
 	        },
 	        select: function(media){
-	          if(media){
+	          if(media !== undefined){
 	            if(typeof media === 'object'){
 	              this.selected = media;
-	              storageFct.setItem('lastPlayedIndex', this.list.indexOf(media)); 
 	            }else{
 	              this.selected = this.list[media];
-	              storageFct.setItem('lastPlayedIndex', media);
 	            }
+	            this.setLastPlayedIndex()
 	          }
 	        },
 	        selectNext: function(){
@@ -423,6 +445,10 @@
 	            
 	            this.onChangeList();
 	          }
+	        },
+	        setLastPlayedIndex: function(){
+	          var lastIndex = this.selectedIndex;
+	          storageFct.setItem('lastPlayedIndex', (lastIndex !== -1 ? lastIndex : 0));
 	        },
 	        setPlaylist: function(playlist){ 
 	          this.list = playlist.slice(0);
@@ -460,7 +486,11 @@
 	        },
 	        onChangeList: function(){
 	          storageFct.setItem('playlist', this.list);
-	          storageFct.setItem('playlist_idIndex', this.idIndex);
+	          storageFct.setItem('playlist_idIndex', this.idIndex); 
+	          this.setLastPlayedIndex();
+	          if(this.selectedIndex === -1){
+	            this.select(0);
+	          }
 	        },
 	        onEnd: function(){
 	          if(!this.isRepeat){
@@ -648,9 +678,12 @@
 	  $scope.Search = searchFct;
 	  
 	  $scope.Lists = listFct;
+	  $scope.Lists.select($scope.Lists.lastSelectedListIndex);
 	
 	  $scope.Playlist = playlistFct;
 	  $scope.Playlist.select($scope.Playlist.lastPlayedIndex);
+	  $scope.Playlist.updateTotalTime();
+	  
 	  
 	  class SectionManager{
 	    constructor(){

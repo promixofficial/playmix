@@ -8,7 +8,9 @@ html, body{
     max-height: 100%;
     &:hover .pmx-app-header{
         opacity: 0.3;
+        height: 25px;
         &:hover{
+            height: 52px;
             opacity: 1;
         }
     }
@@ -23,16 +25,15 @@ html, body{
 }
 
 .pmx-app-header{
-    position: absolute;
     top: 0;
     left: 0;
     z-index: 70;
-    height: 70px;
+    height: 0px;
     overflow: hidden;
     opacity: 0;
     //background-color: #fff;
     box-shadow: rgba(0,0,0,0.5) 0 0 10px;  
-    transition: opacity 0.8s ease;
+    transition: all 0.8s ease;
     @include window-small{
         display: none;
     }

@@ -22,7 +22,7 @@
           <h3>{{ ::item.title }}</h3>
           <h4> 
             {{ ::item.prettyDuration }} 
-            <md-button class="md-icon-button md-primary" ng-click="Playlist.addVideo(item); $event.stopPropagation();" aria-label="Add to Playlist">
+            <md-button title="Add to Playlist" class="md-icon-button md-primary" ng-click="Playlist.addVideo(item); $event.stopPropagation();" aria-label="Add to Playlist">
               <i class="fa fa-plus"></i>
             </md-button>
             

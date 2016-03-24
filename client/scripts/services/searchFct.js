@@ -8,7 +8,7 @@ angular.module("playMixApp")
         searchText: "",
         lastSearch: "_", 
         videosId: [],
-        list: [{"title":"I Have A Dream-Abba asf iouahf iuoahdf sioh faoihd fioaso dfahuio f","id":"Ad9U3h2UmcA","url":"https://youtu.be/Ad9U3h2UmcA","author":"tranquilatus","duration":285,"prettyDuration":"04:45"},{"title":"I Have A Dream-Abba","id":"Ad9U3h2UmcA","url":"https://youtu.be/Ad9U3h2UmcA","author":"tranquilatus","duration":285,"prettyDuration":"04:45"}],
+        list: [],
         get searchUrl(){
             return `https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=50&q=${this.searchText}&key=${this.key}`;
         },

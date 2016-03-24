@@ -2,6 +2,12 @@
     background-color: rgba(63, 81, 181, 0.08);
 }
 
+
+.pmx-btn-disabled{
+    opacity: 0.5;
+    pointer-events: none; 
+}
+
 .pmx-list-container{
     padding: 5px 0;
     .pmx-list{

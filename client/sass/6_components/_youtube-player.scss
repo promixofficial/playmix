@@ -17,7 +17,7 @@
     position: relative;
     iframe{
         opacity: 1;
-        transform: opacity 0.8s ease;
+        transition: opacity 0.8s ease;
     }
     
     &:hover .player-btn{
@@ -49,7 +49,7 @@
     .player-btn-previous, .player-btn-next, .player-btn-play-pause{
         top: 0;
         transform: initial;
-        width: 50%;
+        width: calc(50% - 8px);
         min-width: 40px;
     }
 }

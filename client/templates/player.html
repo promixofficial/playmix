@@ -2,7 +2,7 @@
   
   <!-- resizable r-directions="['top', 'right', 'bottom', 'left']" -->
     
-  <youtube-player videoid="{{Playlist.selected.id}}" class="pmx-yt-container"></youtube-player> 
+  <youtube-player ng-show="Playlist.selected" videoid="{{Playlist.selected.id}}" class="pmx-yt-container"></youtube-player> 
 
   <!--button ng-click="Playlist.play()">Send Play</button> 
   <button ng-click="Playlist.pause()">Send Pause</button> 

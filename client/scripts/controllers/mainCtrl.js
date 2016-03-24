@@ -30,9 +30,12 @@ angular.module("playMixApp")
   $scope.Search = searchFct;
   
   $scope.Lists = listFct;
+  $scope.Lists.select($scope.Lists.lastSelectedListIndex);
 
   $scope.Playlist = playlistFct;
   $scope.Playlist.select($scope.Playlist.lastPlayedIndex);
+  $scope.Playlist.updateTotalTime();
+  
   
   class SectionManager{
     constructor(){

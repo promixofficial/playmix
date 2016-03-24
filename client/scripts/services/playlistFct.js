@@ -23,7 +23,8 @@ angular.module("playMixApp")
           return (this.selectedIndex+1 === this.listLength);
         },
         get lastPlayedIndex(){
-          return storageFct.getItem('lastPlayedIndex') || 0;
+          var lastIndex = storageFct.getItem('lastPlayedIndex') || 0;
+          return (lastIndex !== -1 ? lastIndex : 0);
         },
         sendControlEvent : function (ctrlEvent) {
           $rootScope.$broadcast(ctrlEvent);
@@ -60,14 +61,13 @@ angular.module("playMixApp")
           PlaylistSection.scroll();
         },
         select: function(media){
-          if(media){
+          if(media !== undefined){
             if(typeof media === 'object'){
               this.selected = media;
-              storageFct.setItem('lastPlayedIndex', this.list.indexOf(media)); 
             }else{
               this.selected = this.list[media];
-              storageFct.setItem('lastPlayedIndex', media);
             }
+            this.setLastPlayedIndex()
           }
         },
         selectNext: function(){
@@ -100,6 +100,10 @@ angular.module("playMixApp")
             
             this.onChangeList();
           }
+        },
+        setLastPlayedIndex: function(){
+          var lastIndex = this.selectedIndex;
+          storageFct.setItem('lastPlayedIndex', (lastIndex !== -1 ? lastIndex : 0));
         },
         setPlaylist: function(playlist){ 
           this.list = playlist.slice(0);
@@ -137,7 +141,11 @@ angular.module("playMixApp")
         },
         onChangeList: function(){
           storageFct.setItem('playlist', this.list);
-          storageFct.setItem('playlist_idIndex', this.idIndex);
+          storageFct.setItem('playlist_idIndex', this.idIndex); 
+          this.setLastPlayedIndex();
+          if(this.selectedIndex === -1){
+            this.select(0);
+          }
         },
         onEnd: function(){
           if(!this.isRepeat){

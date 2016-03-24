@@ -2,7 +2,7 @@
 <section class="md-whiteframe-z2" ng-if="!SectionsManager.ListVideo.isClosed">  
 
   <md-toolbar class="md-theme-indigo">
-    <h1 class="md-toolbar-tools">List's Videos</h1>
+    <h1 class="md-toolbar-tools">Lists > Videos</h1>
     <md-button ng-click="SectionsManager.ListVideo.close()" class="md-primary">
       <i class="fa fa-chevron-left" ></i> Back to Lists
     </md-button>
@@ -16,14 +16,13 @@
           <h3>{{ ::item.title }}</h3>
           <h4>
             {{ item.prettyDuration }}
-            <md-button class="md-icon-button md-primary" ng-click="Lists.removeVideo(item)" aria-label="Remove">
-              <i class="fa fa-trash"></i>
-            </md-button>
-            <md-button class="md-icon-button md-primary" ng-click="Playlist.addVideo(item);" aria-label="Add to Playlist">
+            <md-button title="Add to Playlist" class="md-icon-button md-primary" ng-click="Playlist.addVideo(item);" aria-label="Add to Playlist">
               <i class="fa fa-plus"></i>
             </md-button>
-              
-            </h4>
+            <md-button title="Remove from List" class="md-icon-button md-primary" ng-click="Lists.removeVideo(item)" aria-label="Remove">
+              <i class="fa fa-trash"></i>
+            </md-button>
+          </h4>
         </div>
             <md-tooltip md-direction="top">
             {{::item.title}}

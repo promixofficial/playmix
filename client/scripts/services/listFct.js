@@ -4,8 +4,22 @@ angular.module("playMixApp")
     var List = {
         selected: null,
         playlists: [],
+        get selectedIndex(){
+          return this.playlists.indexOf(this.selected); 
+        },
+        get lastSelectedListIndex(){
+          var lastIndex = storageFct.getItem('lastSelectedListIndex') || 0;
+          return (lastIndex !== -1 ? lastIndex : 0);
+        },
         select: function(playlist){
-          this.selected = playlist; 
+          if(playlist !== undefined){
+            if(typeof playlist === 'object'){
+              this.selected = playlist;  
+            }else{
+              this.selected = this.playlists[playlist];
+            }
+            this.setLastSelectedListIndex();  
+          }
         },
         addVideo: function(video){
           var playlist = this.selected.playlist;
@@ -45,6 +59,10 @@ angular.module("playMixApp")
         isEditing: function(list){
           return (this.editingList === list);
         },
+        setLastSelectedListIndex: function(){
+          var lastIndex = this.selectedIndex;
+          storageFct.setItem('lastSelectedListIndex', (lastIndex !== -1 ? lastIndex : 0));
+        },
         
         
         onChangeList: function(list){
@@ -52,6 +70,10 @@ angular.module("playMixApp")
             this.saveList(list);  
           }else{
             this.saveLists();
+          }
+          this.setLastSelectedListIndex();
+          if(this.selectedIndex === -1){
+            this.select(0);
           }
         },
         getLists: function(){
