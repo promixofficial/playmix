@@ -2,8 +2,9 @@
   <!-- md-sidenav-right -->
   <md-toolbar class="md-theme-light"> 
     <h1 class="md-toolbar-tools">Playlist - {{Playlist.totalTime}}</h1>
-    <md-button title="Clear Playlist" class="md-icon-button md-primary" ng-click="Playlist.clearPlaylist()" aria-label="Clear List">
+    <md-button class="md-icon-button md-primary" ng-click="Playlist.clearPlaylist()" aria-label="Clear List">
       <i class="fa fa-eraser"></i>
+      <md-tooltip md-direction="right">Clear Playlist</md-tooltip>
     </md-button>
   </md-toolbar>
   <md-content layout-padding class="pmx-list-container">
@@ -15,14 +16,17 @@
           <h4>  
             {{ ::item.prettyDuration }} 
             
-            <md-button title="Play" class="md-icon-button md-primary" ng-click="Playlist.select(item); Playlist.play();$event.stopPropagation();" aria-label="Play">
+            <md-button class="md-icon-button md-primary" ng-click="Playlist.select(item); Playlist.play();$event.stopPropagation();" aria-label="Play">
               <i class="fa fa-play"></i>
+              <md-tooltip md-direction="left">Play</md-tooltip>
             </md-button> 
-            <md-button title="Add to List ({{Lists.selected.name}})" ng-class="{'pmx-btn-disabled': !Lists.selected}" class="md-icon-button md-primary" ng-click="Lists.addVideo(item); $event.stopPropagation();" aria-label="Add to List">
+            <md-button ng-class="{'pmx-btn-disabled': !Lists.selected}" class="md-icon-button md-primary" ng-click="Lists.addVideo(item); $event.stopPropagation();" aria-label="Add to List">
               <i class="fa fa-save"></i>
+              <md-tooltip md-direction="left">Add to List ({{Lists.selected.name}})</md-tooltip>
             </md-button> 
-            <md-button title="Remove from Playlist" class="md-icon-button md-primary" ng-click="Playlist.removeVideo(item);$event.stopPropagation();" aria-label="Remove">
+            <md-button class="md-icon-button md-primary" ng-click="Playlist.removeVideo(item);$event.stopPropagation();" aria-label="Remove">
               <i class="fa fa-trash"></i>
+              <md-tooltip md-direction="left">Remove from Playlist</md-tooltip>
             </md-button>
           </h4>
         </div>
@@ -31,7 +35,5 @@
           </md-tooltip>
       </md-list-item>
     </md-list>
-    
-  
   </md-content>
 </section>

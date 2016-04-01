@@ -4,12 +4,12 @@
     <div class="pmx-search-box" >
         <md-input-container> 
           <label>Search</label>
-          <input ng-model="Search.searchText" type="text">
+          <input ng-model="Search.searchText" ng-keyup="$event.keyCode == 13 && Search.fetch()" type="text">
         </md-input-container>
         
-        <md-button aria-label="Search" class="md-icon-button launch" ng-click="Search.fetch()" >
+        <!--md-button aria-label="Search" class="md-icon-button launch" ng-click="Search.fetch()" >
           <md-icon class="fa fa-search"></md-icon>
-        </md-button>
+        </md-button-->
     </div> 
   </md-toolbar>
   
@@ -22,8 +22,9 @@
           <h3>{{ ::item.title }}</h3>
           <h4> 
             {{ ::item.prettyDuration }} 
-            <md-button title="Add to Playlist" class="md-icon-button md-primary" ng-click="Playlist.addVideo(item); $event.stopPropagation();" aria-label="Add to Playlist">
+            <md-button class="md-icon-button md-primary" ng-click="Playlist.addVideo(item); $event.stopPropagation();" aria-label="Add to Playlist">
               <i class="fa fa-plus"></i>
+              <md-tooltip md-direction="right">Add to Playlist</md-tooltip>
             </md-button>
             
             </h4>

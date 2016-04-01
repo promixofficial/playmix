@@ -16,11 +16,13 @@
           <h3>{{ ::item.title }}</h3>
           <h4>
             {{ item.prettyDuration }}
-            <md-button title="Add to Playlist" class="md-icon-button md-primary" ng-click="Playlist.addVideo(item);" aria-label="Add to Playlist">
+            <md-button class="md-icon-button md-primary" ng-click="Playlist.addVideo(item);" aria-label="Add to Playlist">
               <i class="fa fa-plus"></i>
+              <md-tooltip md-direction="right">Add to Playlist</md-tooltip>
             </md-button>
-            <md-button title="Remove from List" class="md-icon-button md-primary" ng-click="Lists.removeVideo(item)" aria-label="Remove">
+            <md-button class="md-icon-button md-primary" ng-click="Lists.removeVideo(item)" aria-label="Remove">
               <i class="fa fa-trash"></i>
+              <md-tooltip md-direction="right">Remove from List</md-tooltip>
             </md-button>
           </h4>
         </div>

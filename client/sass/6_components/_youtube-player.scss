@@ -67,3 +67,20 @@
 .player-btn-next{
     right: 0;
 }
+
+
+.pmx-no-video{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: white;
+    
+    pointer-events: none;
+    @media (min-width : 400px) and (min-height : 200px){
+        .pmx-alert-2{
+            display: none;
+        }
+    }
+}

@@ -3,6 +3,11 @@
   <!-- resizable r-directions="['top', 'right', 'bottom', 'left']" -->
     
   <youtube-player ng-show="Playlist.selected" videoid="{{Playlist.selected.id}}" class="pmx-yt-container"></youtube-player> 
+  
+  <div class="pmx-no-video" ng-if="!Playlist.selected" >
+    <span class="pmx-alert-1" >Empty Playlist</span>
+    <span class="pmx-alert-2" >Resize the window to show the controllers</span>
+  </div>
 
   <!--button ng-click="Playlist.play()">Send Play</button> 
   <button ng-click="Playlist.pause()">Send Pause</button> 

@@ -37,7 +37,10 @@ html, body{
     @include window-small{
         display: none;
     }
-    
+    .md-toolbar-tools{
+        height: 52px;
+        max-height: 52px;
+    }
     .action-icon{
         &::before{
             top: 5px;
@@ -61,7 +64,6 @@ html, body{
     max-height: 100%;
     height: 100%;
     overflow-y: auto;
-    flex-basis: 50%;
     transition: all 0.8s ease;
     transform: scaleX(1);
     &.ng-leave.ng-leave-active{
@@ -85,17 +87,6 @@ html, body{
 
 .pmx-playlist-section{
     z-index: 75;
-    @include window-medium{ 
-        display: none;
-    } 
-}
-
-
-@media (max-width : $mq-medium) {
-    .pmx-menu-btn-playlist{
-        opacity: 0.5;
-        pointer-events: none; 
-    }        
 }
 
 
@@ -109,13 +100,15 @@ html, body{
 
 
 .pmx-player-section{
-    overflow: hidden;
-    flex-basis: 100%;
+    width: 100%;
+    overflow: hidden; 
     background-color: #000;
 }
 
-.pmx-playlist-section, .pmx-playlist-section.ng-enter.ng-enter-active{
-    width: 100%;
+.pmx-playlist-section, .pmx-playlist-section.ng-enter.ng-enter-active{ 
+    position: absolute;
+    right: 0; 
+    width: 50%;
     transform-origin: right;
 }
 
