@@ -1,4 +1,4 @@
-angular.module('playMixApp', ['ngMaterial', 'angular-sortable-view','angularResizable']) 
+angular.module('playMixApp', ['ngMaterial', 'angular-sortable-view','angularResizable','LocalForageModule']) 
 
 .constant('YT_event', {
   STOP:            0,

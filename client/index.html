@@ -15,6 +15,12 @@
 <body ng-app="playMixApp" >
 
 <div ng-controller="mainCtrl" class="pmx-app-container" ng-cloak>
+  
+  <!--input local-forage="autoStoredKey" ng-model="autoStoredKey" placeholder="This will be auto stored">
+  
+  <input ng-model="autoStoredKey" placeholder="This will beddd auto stored"-->
+  
+  
   <header class="pmx-app-header" ng-include="'templates/header.html'" ></header>
   <section class="pmx-app-body">
     <div class="pmx-app-section pmx-lists-section" ng-include="SectionsManager.LeftSection.url()" ng-if="SectionsManager.Search.isClosed && !SectionsManager.LeftSection.isClosed()" ></div>
@@ -25,12 +31,13 @@
   </section>
 </div> 
 
-
+ 
   <script src="vendors/js/angular/angular.min.js"></script>
   <script src="vendors/js/angular/angular-animate.min.js"></script>
   <script src="vendors/js/angular/angular-aria.min.js"></script>
   <script src="vendors/js/angular-material/angular-material.min.js" ></script>
-  
+  <script src="vendors/js/localforage.min.js"></script> 
+  <script src="vendors/js/angular-localforage.min.js"></script> 
   <script src="vendors/js/angular-sortable-view.min.js"></script> 
   <script src="vendors/js/angular-resizable/angular-resizable.js"></script>   
   

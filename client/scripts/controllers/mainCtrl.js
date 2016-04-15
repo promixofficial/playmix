@@ -1,7 +1,7 @@
 "use strict"
 
 angular.module("playMixApp")
-.controller('mainCtrl', function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct) {
+.controller('mainCtrl', function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct, $localForage) {
 
 
       $scope.topDirections = ['left', 'up'];
