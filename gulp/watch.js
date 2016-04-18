@@ -5,4 +5,5 @@ gulp.task('watch', function(){
 	gulp.watch(['./client/sass/**/*.scss'], ['sass']);
 	gulp.watch(['./client/templates/**/*.html','./client/index.html'], ['templates']);
 	gulp.watch(['./client/scripts/**/*.js'], ['webpack']);
+	gulp.watch(['./client/scripts/services/*.js'], ['docs']);
 });
