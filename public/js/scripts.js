@@ -84,9 +84,9 @@
 	    var Utils = {
 	        Time: {
 	            secondsToReadable: function secondsToReadable(time) {
-	                var hours = parseInt(time / 3600),
-	                    /*% 24*/
-	                minutes = ("0" + parseInt(time / 60) % 60).slice(-2),
+	                var hours = parseInt(time / 3600) /*% 24*/
+	                ,
+	                    minutes = ("0" + parseInt(time / 60) % 60).slice(-2),
 	                    seconds = ("0" + time % 60).slice(-2);
 	
 	                hours = hours < 10 ? "0" + hours : hours;
@@ -120,6 +120,8 @@
 
 	'use strict';
 	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
 	angular.module("playMixApp").factory('storageFct', [function () {
 	
 	    var Storage = {
@@ -131,7 +133,7 @@
 	            return value;
 	        },
 	        setItem: function setItem(itemName, value) {
-	            value = typeof value === 'object' ? JSON.stringify(value) : value;
+	            value = (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' ? JSON.stringify(value) : value;
 	            localStorage[itemName] = value;
 	        },
 	        removeItem: function removeItem(itemName) {
@@ -159,12 +161,20 @@
 	
 	angular.module("playMixApp").factory('searchFct', ['$http', 'utilsFct', function ($http, utilsFct) {
 	
-	    var Search = Object.defineProperties({
+	    var Search = {
+	        get key() {
+	            return '';
+	        },
 	        searchText: "",
 	        lastSearch: "_",
 	        videosId: [],
 	        list: [],
-	
+	        get searchUrl() {
+	            return 'https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=50&q=' + this.searchText + '&key=' + this.key;
+	        },
+	        get videoListUrl() {
+	            return 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=' + this.videosId.join(',') + '&key=' + this.key;
+	        },
 	        fetch: function fetch(callback) {
 	            Search.videosId = [];
 	            if (this.searchText !== "" && this.searchText !== this.lastSearch) {
@@ -204,29 +214,7 @@
 	            Search.list = videos;
 	            return videos;
 	        }
-	    }, {
-	        key: {
-	            get: function get() {
-	                return '';
-	            },
-	            configurable: true,
-	            enumerable: true
-	        },
-	        searchUrl: {
-	            get: function get() {
-	                return 'https://www.googleapis.com/youtube/v3/search?part=id,snippet&maxResults=50&q=' + this.searchText + '&key=' + this.key;
-	            },
-	            configurable: true,
-	            enumerable: true
-	        },
-	        videoListUrl: {
-	            get: function get() {
-	                return 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=' + this.videosId.join(',') + '&key=' + this.key;
-	            },
-	            configurable: true,
-	            enumerable: true
-	        }
-	    });
+	    };
 	
 	    return Search;
 	}]);
@@ -237,15 +225,25 @@
 
 	'use strict';
 	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
 	angular.module("playMixApp").factory('listFct', ['storageFct', function (storageFct) {
 	
-	  var List = Object.defineProperties({
+	  var List = _defineProperty({
 	    selected: null,
 	    playlists: [],
-	
+	    get selectedIndex() {
+	      return this.playlists.indexOf(this.selected);
+	    },
+	    get lastSelectedListIndex() {
+	      var lastIndex = storageFct.getItem('lastSelectedListIndex') || 0;
+	      return lastIndex !== -1 ? lastIndex : 0;
+	    },
 	    select: function select(playlist) {
 	      if (playlist !== undefined) {
-	        if (typeof playlist === 'object') {
+	        if ((typeof playlist === 'undefined' ? 'undefined' : _typeof(playlist)) === 'object') {
 	          this.selected = playlist;
 	        } else {
 	          this.selected = this.playlists[playlist];
@@ -326,27 +324,9 @@
 	        list.playlist = [];
 	      });
 	      storageFct.setItem('lists', lists);
-	    },
-	    saveList: function saveList(list) {
-	      storageFct.setItem('_playlist_' + list.id, list.playlist);
 	    }
-	
-	  }, {
-	    selectedIndex: {
-	      get: function get() {
-	        return this.playlists.indexOf(this.selected);
-	      },
-	      configurable: true,
-	      enumerable: true
-	    },
-	    lastSelectedListIndex: {
-	      get: function get() {
-	        var lastIndex = storageFct.getItem('lastSelectedListIndex') || 0;
-	        return lastIndex !== -1 ? lastIndex : 0;
-	      },
-	      configurable: true,
-	      enumerable: true
-	    }
+	  }, 'saveList', function saveList(list) {
+	    storageFct.setItem('_playlist_' + list.id, list.playlist);
 	  });
 	
 	  List.playlists = List.getLists();
@@ -360,9 +340,11 @@
 
 	'use strict';
 	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
 	angular.module("playMixApp").factory('playlistFct', ['$rootScope', '$timeout', 'YT_event', 'utilsFct', 'storageFct', function ($rootScope, $timeout, YT_event, utilsFct, storageFct) {
 	
-	  var Playlist = Object.defineProperties({
+	  var Playlist = {
 	    selected: null,
 	    isRepeat: false,
 	    isLooping: true,
@@ -371,7 +353,22 @@
 	    list: storageFct.getItem('playlist') || [],
 	    idIndex: storageFct.getItem('playlist_idIndex') || {},
 	    totalTime: "00:00",
-	
+	    get listLength() {
+	      return this.list.length;
+	    },
+	    get selectedIndex() {
+	      return this.list.indexOf(this.selected);
+	    },
+	    get isFirst() {
+	      return this.selectedIndex === 0;
+	    },
+	    get isLast() {
+	      return this.selectedIndex + 1 === this.listLength;
+	    },
+	    get lastPlayedIndex() {
+	      var lastIndex = storageFct.getItem('lastPlayedIndex') || 0;
+	      return lastIndex !== -1 ? lastIndex : 0;
+	    },
 	    sendControlEvent: function sendControlEvent(ctrlEvent) {
 	      $rootScope.$broadcast(ctrlEvent);
 	    },
@@ -410,7 +407,7 @@
 	    },
 	    select: function select(media) {
 	      if (media !== undefined) {
-	        if (typeof media === 'object') {
+	        if ((typeof media === 'undefined' ? 'undefined' : _typeof(media)) === 'object') {
 	          this.selected = media;
 	        } else {
 	          this.selected = this.list[media];
@@ -518,46 +515,12 @@
 	        _this3.totalTime = utilsFct.Time.secondsToReadable(totalTime);
 	      }, 100);
 	    }
-	  }, {
-	    listLength: {
-	      get: function get() {
-	        return this.list.length;
-	      },
-	      configurable: true,
-	      enumerable: true
-	    },
-	    selectedIndex: {
-	      get: function get() {
-	        return this.list.indexOf(this.selected);
-	      },
-	      configurable: true,
-	      enumerable: true
-	    },
-	    isFirst: {
-	      get: function get() {
-	        return this.selectedIndex === 0;
-	      },
-	      configurable: true,
-	      enumerable: true
-	    },
-	    isLast: {
-	      get: function get() {
-	        return this.selectedIndex + 1 === this.listLength;
-	      },
-	      configurable: true,
-	      enumerable: true
-	    },
-	    lastPlayedIndex: {
-	      get: function get() {
-	        var lastIndex = storageFct.getItem('lastPlayedIndex') || 0;
-	        return lastIndex !== -1 ? lastIndex : 0;
-	      },
-	      configurable: true,
-	      enumerable: true
-	    }
-	  });
+	  };
 	
-	  var PlaylistSection = Object.defineProperties({
+	  var PlaylistSection = {
+	    get element() {
+	      return document.getElementsByClassName('pmx-playlist-section')[0];
+	    },
 	    scroll: function scroll(top) {
 	      if (this.element) {
 	        this.element.scrollTop = top || 0;
@@ -568,15 +531,7 @@
 	          videoHeight = 88;
 	      this.scroll(headerHeight + (videoIndex || 0) * videoHeight);
 	    }
-	  }, {
-	    element: {
-	      get: function get() {
-	        return document.getElementsByClassName('pmx-playlist-section')[0];
-	      },
-	      configurable: true,
-	      enumerable: true
-	    }
-	  });
+	  };
 	
 	  return Playlist;
 	}]);
@@ -694,7 +649,7 @@
 
 	"use strict";
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -724,7 +679,7 @@
 	  $scope.Playlist.select($scope.Playlist.lastPlayedIndex);
 	  $scope.Playlist.updateTotalTime();
 	
-	  var SectionManager = (function () {
+	  var SectionManager = function () {
 	    function SectionManager() {
 	      _classCallCheck(this, SectionManager);
 	
@@ -749,7 +704,7 @@
 	    }]);
 	
 	    return SectionManager;
-	  })();
+	  }();
 	
 	  $scope.SectionsManager = {
 	    List: new SectionManager(),
