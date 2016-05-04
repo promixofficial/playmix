@@ -48,7 +48,7 @@ angular.module("playMixApp")
                 this.selectPrevious();
               }
             }
-            $timeout(()=>{ 
+            $timeout(()=>{
               this.sendControlEvent(YT_event.PLAY);  
             },300); 
           }
