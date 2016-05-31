@@ -17,5 +17,28 @@
     "<all_urls>",
     "webview",
     "alwaysOnTopWindows"
-  ]
+  ],
+  "commands": {
+    "play-pause": {
+      "description": "Play / Pause", 
+      "global": true,
+      "suggested_key": {
+        "default": "MediaPlayPause"
+      }
+    },
+    "next-track": {
+      "description": "Next Video", 
+      "global": true,
+      "suggested_key": {
+        "default": "MediaNextTrack"
+      }
+    },
+    "prev-track": {
+      "description": "Previous Video", 
+      "global": true,
+      "suggested_key": {
+        "default": "MediaPrevTrack"
+      }
+    }
+  }
 }
