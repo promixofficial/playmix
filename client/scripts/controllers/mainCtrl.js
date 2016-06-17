@@ -1,7 +1,8 @@
 "use strict"
 
 angular.module("playMixApp")
-.controller('mainCtrl', function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct, $localForage) {
+.controller('mainCtrl', [ '$scope', '$rootScope', '$timeout', '$mdSidenav', '$log', 'YT_event', 'listFct', 'playlistFct', 'searchFct', '$localForage',
+function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct, $localForage) {
 
 
       $scope.topDirections = ['left', 'up'];
@@ -30,11 +31,20 @@ angular.module("playMixApp")
   $scope.Search = searchFct;
   
   $scope.Lists = listFct;
-  $scope.Lists.select($scope.Lists.lastSelectedListIndex);
+  $scope.Lists.getLists()
+    .then((lists)=>{
+      $scope.Lists.playlists = lists;
+      $scope.Lists.select($scope.Lists.lastSelectedListIndex);
+    });
 
   $scope.Playlist = playlistFct;
-  $scope.Playlist.select($scope.Playlist.lastPlayedIndex);
-  $scope.Playlist.updateTotalTime();
+  $scope.Playlist.getPlaylist()
+    .then((playlist)=>{
+      $scope.Playlist.list = playlist;
+      $scope.Playlist.select($scope.Playlist.lastPlayedIndex);
+      $scope.Playlist.updateTotalTime();
+    });
+  
   
   
   class SectionManager{
@@ -70,4 +80,4 @@ angular.module("playMixApp")
     }
   }
   
-})
+}])

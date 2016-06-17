@@ -14,6 +14,10 @@ gulp.task("webpack", function(callback) {
             
             devtool: 'source-map',
             
+            plugins: [ 
+                //new webpack.optimize.UglifyJsPlugin({minimize: true})
+            ],
+            
             module:{
                 loaders: [
                     {

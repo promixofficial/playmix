@@ -12,6 +12,7 @@ angular.module('playMixApp', ['ngMaterial', 'angular-sortable-view','angularResi
 *************************/
 require("./services/utilsFct"); 
 require("./services/localStorage"); 
+require("./services/storage"); 
 require("./services/searchFct"); 
 require("./services/listFct"); 
 require("./services/playlistFct"); 

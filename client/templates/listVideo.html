@@ -9,7 +9,7 @@
   </md-toolbar>
   
   <md-content layout-padding class="pmx-list-container">
-    <md-list sv-root sv-part="Lists.selected.playlist" class="pmx-list" >
+    <md-list sv-root sv-on-sort="Lists.onChangeList()" sv-part="Lists.selected.playlist" class="pmx-list" >
       <md-list-item class="md-3-line pmx-list-item"  sv-element ng-repeat="item in Lists.selected.playlist">
         <img draggable="false" class="md-avatar pmx-list-image" ng-src="https://img.youtube.com/vi/{{::item.id}}/mqdefault.jpg"  />
         <div class="md-list-item-text pmx-list-info" layout="column">

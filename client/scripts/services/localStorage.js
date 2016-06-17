@@ -1,5 +1,5 @@
 angular.module("playMixApp")
-.factory('storageFct', [function(){
+.factory('localStorageFct', [function(){
     
     var Storage = {
         getItem: function(itemName){

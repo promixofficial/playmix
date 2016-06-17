@@ -1,14 +1,17 @@
 angular.module("playMixApp")
-.factory('playlistFct', ['$rootScope','$timeout','YT_event','utilsFct', 'storageFct', function($rootScope,$timeout, YT_event, utilsFct, storageFct){
-    
+.factory('playlistFct', ['$rootScope','$timeout','YT_event','utilsFct', 'storageFct', 'localStorageFct', 
+function($rootScope,$timeout, YT_event, utilsFct, storageFct, localStorageFct){
+    /**
+    * @namespace playlistFct 
+    */ 
     var Playlist = {
         selected: null,
         isRepeat: false, 
         isLooping: true,
         playerStatus: "NOT PLAYING",
         YT_EVENT: YT_event,
-        list: storageFct.getItem('playlist') || [],
-        idIndex:storageFct.getItem('playlist_idIndex') ||  {},
+        list: [],
+        idIndex: localStorageFct.getItem('playlist_idIndex') ||  {},
         totalTime: "00:00",
         get listLength(){ 
           return this.list.length;  
@@ -23,7 +26,7 @@ angular.module("playMixApp")
           return (this.selectedIndex+1 === this.listLength);
         },
         get lastPlayedIndex(){
-          var lastIndex = storageFct.getItem('lastPlayedIndex') || 0;
+          var lastIndex = localStorageFct.getItem('lastPlayedIndex') || 0;
           return (lastIndex !== -1 ? lastIndex : 0);
         },
         sendControlEvent : function (ctrlEvent) {
@@ -103,7 +106,7 @@ angular.module("playMixApp")
         },
         setLastPlayedIndex: function(){
           var lastIndex = this.selectedIndex;
-          storageFct.setItem('lastPlayedIndex', (lastIndex !== -1 ? lastIndex : 0));
+          localStorageFct.setItem('lastPlayedIndex', (lastIndex !== -1 ? lastIndex : 0));
         },
         setPlaylist: function(playlist){ 
           this.list = playlist.slice(0);
@@ -140,12 +143,21 @@ angular.module("playMixApp")
           this.idIndex = {};  
         },
         onChangeList: function(){
-          storageFct.setItem('playlist', this.list);
-          storageFct.setItem('playlist_idIndex', this.idIndex); 
+          this.savePlaylist();
+          localStorageFct.setItem('playlist_idIndex', this.idIndex); 
           this.setLastPlayedIndex();
           if(this.selectedIndex === -1){
             this.select(0);
           }
+        },
+        getPlaylist: function(){
+          return storageFct.getItem('playlist')
+          .then((playlist)=>{
+            return playlist || [];
+          })
+        },
+        savePlaylist: function(){
+          return storageFct.setItem('playlist', this.list);
         },
         onEnd: function(){
           if(!this.isRepeat){
@@ -183,7 +195,7 @@ angular.module("playMixApp")
         this.scroll( headerHeight + ((videoIndex || 0) * videoHeight) );
       }
     }
-    
-  
-  return Playlist;
+   
+
+    return Playlist;
 }]);
