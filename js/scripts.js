@@ -607,7 +607,7 @@
 	    var File = {
 	        download: function download(filename, text) {
 	            var element = document.createElement('a');
-	            element.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(text));
+	            element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
 	            element.setAttribute('download', filename);
 	            element.click();
 	        },
@@ -791,7 +791,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	angular.module("playMixApp").controller('mainCtrl', ['$scope', '$rootScope', '$timeout', '$mdSidenav', '$log', 'YT_event', 'listFct', 'playlistFct', 'searchFct', '$localForage', 'fileFct', function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct, $localForage, fileFct) {
+	angular.module("playMixApp").controller('mainCtrl', ['$scope', '$rootScope', '$timeout', '$mdSidenav', '$log', 'YT_event', 'listFct', 'playlistFct', 'searchFct', '$localForage', 'fileFct', '$mdDialog', function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct, $localForage, fileFct, $mdDialog) {
 	
 	  $scope.topDirections = ['left', 'up'];
 	  $scope.bottomDirections = ['down', 'right'];
@@ -826,10 +826,10 @@
 	  $scope.Backup = {
 	    saveLists: function saveLists() {
 	      $scope.Lists.getLists().then(function (lists) {
-	        fileFct.download('playlists.json', JSON.stringify(lists, null, 3));
+	        fileFct.download('playmix-playlists.json', JSON.stringify(lists, null, 3));
 	      });
 	    },
-	    loadLists: function loadLists() {
+	    loadLists: function loadLists(event) {
 	      fileFct.load(function (fileContent) {
 	        if (fileContent) {
 	          fileFct.validateFileContent(fileContent).then(function (resp) {
@@ -839,9 +839,11 @@
 	              throw err;
 	            }
 	            console.log('Invalid Data Format! Validation errors:', err.errors);
+	            $mdDialog.show($mdDialog.alert().parent(angular.element(document.querySelector('.pmx-app-container'))).clickOutsideToClose(true).textContent('Invalid Data Format').ok('OK').targetEvent(event));
 	          });
 	        } else {
 	          console.log('invalid file');
+	          $mdDialog.show($mdDialog.alert().parent(angular.element(document.querySelector('.pmx-app-container'))).clickOutsideToClose(true).textContent('Invalid File').ok('OK').targetEvent(event));
 	        }
 	      });
 	    },
