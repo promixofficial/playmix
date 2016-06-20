@@ -857,7 +857,7 @@
 	        }
 	      });
 	      $scope.Lists.playlists = $scope.Lists.playlists.concat(fileContent);
-	      //$scope.Lists.saveLists();
+	      $scope.Lists.saveLists();
 	    }
 	  };
 	
