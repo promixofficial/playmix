@@ -16,6 +16,7 @@ require("./services/storage");
 require("./services/searchFct"); 
 require("./services/listFct"); 
 require("./services/playlistFct"); 
+require("./services/fileFct"); 
 
 /* FILTERS
 *************************/

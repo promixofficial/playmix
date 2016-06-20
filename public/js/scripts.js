@@ -62,17 +62,18 @@
 	__webpack_require__(4);
 	__webpack_require__(5);
 	__webpack_require__(6);
+	__webpack_require__(7);
 	
 	/* FILTERS
 	*************************/
 	
 	/* DIRECTIVES
 	*************************/
-	__webpack_require__(7);
+	__webpack_require__(8);
 	
 	/* CONTROLLERS
 	*************************/
-	__webpack_require__(8);
+	__webpack_require__(9);
 
 /***/ },
 /* 1 */
@@ -216,8 +217,7 @@
 	
 	    var Search = {
 	        get key() {
-	            return '';
-	            //return "AIzaSyBNWIg9CEBpjpjakt9PMKGm-wu7miyc5yMz";
+	            return localStorage["searchKey"] || "AIzaSyBNWIg9CEBpjpjakt9PMKGm-wu7miyc5yMz";
 	        },
 	        searchText: "",
 	        lastSearch: "_",
@@ -600,6 +600,86 @@
 
 	'use strict';
 	
+	angular.module("playMixApp").factory('fileFct', [function () {
+	    /**
+	    * @namespace fileFct 
+	    */
+	    var File = {
+	        download: function download(filename, text) {
+	            var element = document.createElement('a');
+	            element.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(text));
+	            element.setAttribute('download', filename);
+	            element.click();
+	        },
+	        load: function load(callback) {
+	            var input = document.createElement('input');
+	            input.setAttribute('type', 'file');
+	            input.onchange = this.readContent.bind(input, callback);
+	
+	            input.click();
+	        },
+	        readContent: function readContent(callback) {
+	            var file = this.files[0],
+	                reader = new FileReader();
+	
+	            reader.onload = function () {
+	                var content = reader.result;
+	                try {
+	                    content = JSON.parse(content);
+	                    callback && callback(content);
+	                } catch (e) {
+	                    callback && callback(false);
+	                }
+	            };
+	
+	            reader.readAsText(file);
+	        },
+	        validateFileContent: function validateFileContent(fileContent) {
+	            var ajv = new Ajv({ useDefaults: 'shared' });
+	            var schema = File.fileContentSchema;
+	            var validate = ajv.compile(schema);
+	            return validate(fileContent);
+	        },
+	        fileContentSchema: {
+	            "$async": true,
+	            "type": "array",
+	            "uniqueItems": true,
+	            "items": {
+	                "type": "object",
+	                "required": ["id", "name", "playlist"],
+	                "properties": {
+	                    "id": { "type": "integer" },
+	                    "name": { "type": "string" },
+	                    "playlist": {
+	                        "type": "array",
+	                        "uniqueItems": true,
+	                        "items": {
+	                            "type": "object",
+	                            "required": ["author", "duration", "id", "prettyDuration", "title", "url"],
+	                            "properties": {
+	                                "author": { "type": "string" },
+	                                "duration": { "type": "integer" },
+	                                "id": { "type": "string" },
+	                                "prettyDuration": { "type": "string" },
+	                                "title": { "type": "string" },
+	                                "url": { "type": "string" }
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    };
+	
+	    return File;
+	}]);
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
 	angular.module("playMixApp").directive('youtubePlayer', ['$window', 'YT_event', function ($window, YT_event) {
 	  return {
 	    restrict: "E",
@@ -702,7 +782,7 @@
 	}]);
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -711,7 +791,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	angular.module("playMixApp").controller('mainCtrl', ['$scope', '$rootScope', '$timeout', '$mdSidenav', '$log', 'YT_event', 'listFct', 'playlistFct', 'searchFct', '$localForage', function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct, $localForage) {
+	angular.module("playMixApp").controller('mainCtrl', ['$scope', '$rootScope', '$timeout', '$mdSidenav', '$log', 'YT_event', 'listFct', 'playlistFct', 'searchFct', '$localForage', 'fileFct', function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct, $localForage, fileFct) {
 	
 	  $scope.topDirections = ['left', 'up'];
 	  $scope.bottomDirections = ['down', 'right'];
@@ -742,6 +822,44 @@
 	    $scope.Playlist.select($scope.Playlist.lastPlayedIndex);
 	    $scope.Playlist.updateTotalTime();
 	  });
+	
+	  $scope.Backup = {
+	    saveLists: function saveLists() {
+	      $scope.Lists.getLists().then(function (lists) {
+	        fileFct.download('playlists.json', JSON.stringify(lists, null, 3));
+	      });
+	    },
+	    loadLists: function loadLists() {
+	      fileFct.load(function (fileContent) {
+	        if (fileContent) {
+	          fileFct.validateFileContent(fileContent).then(function (resp) {
+	            $scope.Backup.joinLists(fileContent);
+	          }).catch(function (err) {
+	            if (!(err instanceof Ajv.ValidationError)) {
+	              throw err;
+	            }
+	            console.log('Invalid Data Format! Validation errors:', err.errors);
+	          });
+	        } else {
+	          console.log('invalid file');
+	        }
+	      });
+	    },
+	    joinLists: function joinLists(fileContent) {
+	      var timestamp = new Date().getTime(),
+	          storageLists = [];
+	      $scope.Lists.playlists.forEach(function (playlist) {
+	        storageLists.push(playlist.name);
+	      });
+	      fileContent.forEach(function (playlist) {
+	        if (storageLists.indexOf(playlist.name) !== -1) {
+	          playlist.name += "-" + timestamp;
+	        }
+	      });
+	      $scope.Lists.playlists = $scope.Lists.playlists.concat(fileContent);
+	      //$scope.Lists.saveLists();
+	    }
+	  };
 	
 	  var SectionManager = function () {
 	    function SectionManager() {
