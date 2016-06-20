@@ -217,7 +217,7 @@
 	
 	    var Search = {
 	        get key() {
-	            return localStorage["searchKey"] || "AIzaSyBNWIg9CEBpjpjakt9PMKGm-wu7miyc5yMz";
+	            return localStorage["searchKey"] || "AIzaSyBNWIg9CEBpjpjakt9PMKGm-wu7miyc5yM";
 	        },
 	        searchText: "",
 	        lastSearch: "_",
