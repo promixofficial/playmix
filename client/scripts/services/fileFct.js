@@ -6,7 +6,7 @@ angular.module("playMixApp")
     var File = {   
         download: function(filename, text) {
             var element = document.createElement('a');
-            element.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
             element.setAttribute('download', filename);
             element.click();
         },

@@ -1,8 +1,8 @@
 "use strict"
 
 angular.module("playMixApp")
-.controller('mainCtrl', [ '$scope', '$rootScope', '$timeout', '$mdSidenav', '$log', 'YT_event', 'listFct', 'playlistFct', 'searchFct', '$localForage', 'fileFct',
-function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct, $localForage, fileFct) {
+.controller('mainCtrl', [ '$scope', '$rootScope', '$timeout', '$mdSidenav', '$log', 'YT_event', 'listFct', 'playlistFct', 'searchFct', '$localForage', 'fileFct','$mdDialog',
+function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct, $localForage, fileFct, $mdDialog) {
 
 
       $scope.topDirections = ['left', 'up'];
@@ -48,10 +48,10 @@ function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, pla
   $scope.Backup = {
     saveLists: function(){
       $scope.Lists.getLists().then((lists)=>{ 
-        fileFct.download('playlists.json', JSON.stringify(lists, null, 3));
+        fileFct.download('playmix-playlists.json', JSON.stringify(lists, null, 3));
       });
     },
-    loadLists: function(){
+    loadLists: function(event){
       fileFct.load(function(fileContent){
         if(fileContent){
           fileFct.validateFileContent(fileContent)
@@ -61,9 +61,25 @@ function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, pla
           .catch((err)=>{
             if(!(err instanceof Ajv.ValidationError)){ throw err; }
             console.log('Invalid Data Format! Validation errors:', err.errors);
+            $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.querySelector('.pmx-app-container')))
+              .clickOutsideToClose(true)
+              .textContent('Invalid Data Format')
+              .ok('OK')
+              .targetEvent(event)
+            );
           })
         }else{
           console.log('invalid file');
+          $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.querySelector('.pmx-app-container')))
+              .clickOutsideToClose(true)
+              .textContent('Invalid File')
+              .ok('OK')
+              .targetEvent(event)
+          );
         }
       })
     },
@@ -79,7 +95,7 @@ function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, pla
           }
         });
         $scope.Lists.playlists = $scope.Lists.playlists.concat(fileContent);
-        //$scope.Lists.saveLists();
+        $scope.Lists.saveLists();
     }
   }
    
