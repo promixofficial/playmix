@@ -47,7 +47,7 @@ function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, pla
   
   $scope.Backup = {
     saveLists: function(){
-      $scope.Lists.getLists().then((lists)=>{
+      $scope.Lists.getLists().then((lists)=>{ 
         fileFct.download('playlists.json', JSON.stringify(lists, null, 3));
       });
     },
