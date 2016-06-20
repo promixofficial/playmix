@@ -3,18 +3,20 @@
 
   <md-toolbar class="md-theme-indigo">
     <h1 class="md-toolbar-tools">Lists</h1>
-    <md-button class="md-icon-button md-primary" ng-click="Lists.addList()" aria-label="Create List">
-      <i class="fa fa-plus"></i>
-      <md-tooltip md-direction="right">Add New List</md-tooltip>
-    </md-button>
-    <md-button class="md-icon-button md-primary" ng-click="Backup.saveLists()" aria-label="Save Lists">
-      <i class="fa fa-download"></i>
-      <md-tooltip md-direction="right">Save Lists</md-tooltip>
-    </md-button>
-    <md-button class="md-icon-button md-primary" ng-click="Backup.loadLists()" aria-label="Load Lists">
-      <i class="fa fa-upload"></i>
-      <md-tooltip md-direction="right">Load Lists</md-tooltip>
-    </md-button>
+    <h4 class="pmx-list-functions" >
+      <md-button class="md-icon-button md-primary" ng-click="Lists.addList()" aria-label="Create List">
+        <i class="fa fa-plus"></i>
+        <md-tooltip md-direction="right">Add New List</md-tooltip>
+      </md-button>
+      <md-button class="md-icon-button md-primary" ng-click="Backup.saveLists()" aria-label="Save Lists">
+        <i class="fa fa-download"></i>
+        <md-tooltip md-direction="right">Save Lists</md-tooltip>
+      </md-button>
+      <md-button class="md-icon-button md-primary" ng-click="Backup.loadLists()" aria-label="Load Lists">
+        <i class="fa fa-upload"></i>
+        <md-tooltip md-direction="right">Load Lists</md-tooltip>
+      </md-button>
+    </h4> 
   </md-toolbar>
    
   <md-content layout-padding class="pmx-list-container">
