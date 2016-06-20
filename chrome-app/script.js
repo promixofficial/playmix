@@ -11,11 +11,15 @@ var PmxWebview = {
 	}
 }
 
-
-
 document.getElementById("pmx-btn-close").onclick = function() {
 	window.close();
 }
+
+PmxWebview.obj.addEventListener('permissionrequest', function(e) {
+  if (e.permission === 'download') {
+    e.request.allow();
+  }
+});
 
 
 chrome.commands.onCommand.addListener(function(command) { console.log(command, 151654)
