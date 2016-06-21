@@ -79,11 +79,19 @@
 /* 1 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
-	angular.module("playMixApp").factory('utilsFct', [function () {
+	angular.module("playMixApp").factory('utilsFct', ['$mdDialog', function ($mdDialog) {
 	
 	    var Utils = {
+	        Dialog: {
+	            alert: function alert() {
+	                var message = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
+	                var buttonText = arguments.length <= 1 || arguments[1] === undefined ? "OK" : arguments[1];
+	
+	                $mdDialog.show($mdDialog.alert().parent(angular.element(document.querySelector('.pmx-app-container'))).clickOutsideToClose(true).textContent(message).ok(buttonText).targetEvent(event));
+	            }
+	        },
 	        Time: {
 	            secondsToReadable: function secondsToReadable(time) {
 	                var hours = parseInt(time / 3600) /*% 24*/
@@ -92,7 +100,7 @@
 	                    seconds = ("0" + time % 60).slice(-2);
 	
 	                hours = hours < 10 ? "0" + hours : hours;
-	                hours = hours !== '00' ? hours + ":" : "";
+	                hours = hours !== '00' ? hours + ':' : "";
 	
 	                return hours + minutes + ":" + seconds;
 	            },
@@ -791,7 +799,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	angular.module("playMixApp").controller('mainCtrl', ['$scope', '$rootScope', '$timeout', '$mdSidenav', '$log', 'YT_event', 'listFct', 'playlistFct', 'searchFct', '$localForage', 'fileFct', '$mdDialog', function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct, $localForage, fileFct, $mdDialog) {
+	angular.module("playMixApp").controller('mainCtrl', ['$scope', '$rootScope', '$timeout', '$mdSidenav', '$log', 'YT_event', 'listFct', 'playlistFct', 'searchFct', '$localForage', 'fileFct', '$mdDialog', 'utilsFct', function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct, $localForage, fileFct, $mdDialog, utilsFct) {
 	
 	  $scope.topDirections = ['left', 'up'];
 	  $scope.bottomDirections = ['down', 'right'];
@@ -839,11 +847,11 @@
 	              throw err;
 	            }
 	            console.log('Invalid Data Format! Validation errors:', err.errors);
-	            $mdDialog.show($mdDialog.alert().parent(angular.element(document.querySelector('.pmx-app-container'))).clickOutsideToClose(true).textContent('Invalid Data Format').ok('OK').targetEvent(event));
+	            utilsFct.Dialog.alert("Invalid Data Format");
 	          });
 	        } else {
 	          console.log('invalid file');
-	          $mdDialog.show($mdDialog.alert().parent(angular.element(document.querySelector('.pmx-app-container'))).clickOutsideToClose(true).textContent('Invalid File').ok('OK').targetEvent(event));
+	          utilsFct.Dialog.alert("Invalid File");
 	        }
 	      });
 	    },
