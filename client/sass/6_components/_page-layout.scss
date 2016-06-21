@@ -63,7 +63,6 @@ html, body{
 .pmx-app-section, .pmx-app-section.ng-enter.ng-enter-active{
     max-height: 100%;
     height: 100%;
-    overflow-y: auto;
     transition: all 0.8s ease;
     transform: scaleX(1);
     &.ng-leave.ng-leave-active{

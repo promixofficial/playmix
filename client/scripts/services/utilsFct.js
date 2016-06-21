@@ -1,7 +1,19 @@
 angular.module("playMixApp")
-.factory('utilsFct', [function(){
+.factory('utilsFct', ['$mdDialog', function($mdDialog){
     
     var Utils = {
+        Dialog: {
+            alert: function(message = "", buttonText = "OK"){
+                $mdDialog.show(
+                    $mdDialog.alert()
+                      .parent(angular.element(document.querySelector('.pmx-app-container')))
+                      .clickOutsideToClose(true)
+                      .textContent(message)
+                      .ok(buttonText)
+                      .targetEvent(event)
+                );
+            }
+        },
         Time: {
             secondsToReadable: function(time){
                 var hours = parseInt( time / 3600 ) /*% 24*/,

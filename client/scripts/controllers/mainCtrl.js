@@ -1,8 +1,8 @@
 "use strict"
 
 angular.module("playMixApp")
-.controller('mainCtrl', [ '$scope', '$rootScope', '$timeout', '$mdSidenav', '$log', 'YT_event', 'listFct', 'playlistFct', 'searchFct', '$localForage', 'fileFct','$mdDialog',
-function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct, $localForage, fileFct, $mdDialog) {
+.controller('mainCtrl', [ '$scope', '$rootScope', '$timeout', '$mdSidenav', '$log', 'YT_event', 'listFct', 'playlistFct', 'searchFct', '$localForage', 'fileFct','$mdDialog', 'utilsFct',
+function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, playlistFct, searchFct, $localForage, fileFct, $mdDialog, utilsFct) {
 
 
       $scope.topDirections = ['left', 'up'];
@@ -12,12 +12,6 @@ function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, pla
       $scope.selectedMode = 'md-fling'; 
       $scope.availableDirections = ['up', 'down', 'left', 'right'];
       $scope.selectedDirection = 'right';
-
-
-
-
-
-
 
 
 
@@ -61,29 +55,15 @@ function ($scope, $rootScope, $timeout, $mdSidenav, $log, YT_event, listFct, pla
           .catch((err)=>{
             if(!(err instanceof Ajv.ValidationError)){ throw err; }
             console.log('Invalid Data Format! Validation errors:', err.errors);
-            $mdDialog.show(
-            $mdDialog.alert()
-              .parent(angular.element(document.querySelector('.pmx-app-container')))
-              .clickOutsideToClose(true)
-              .textContent('Invalid Data Format')
-              .ok('OK')
-              .targetEvent(event)
-            );
+            utilsFct.Dialog.alert("Invalid Data Format");
           })
         }else{
           console.log('invalid file');
-          $mdDialog.show(
-            $mdDialog.alert()
-              .parent(angular.element(document.querySelector('.pmx-app-container')))
-              .clickOutsideToClose(true)
-              .textContent('Invalid File')
-              .ok('OK')
-              .targetEvent(event)
-          );
+          utilsFct.Dialog.alert("Invalid File");
         }
       })
     },
-    joinLists: function(fileContent){
+    joinLists: function(fileContent){  
       var timestamp = (new Date()).getTime(),
         storageLists = [];
         $scope.Lists.playlists.forEach((playlist)=>{

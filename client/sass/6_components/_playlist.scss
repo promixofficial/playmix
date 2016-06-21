@@ -12,10 +12,18 @@
     margin: 0;
 }
 
+.pmx-section-list-container{
+    height: 100%;
+}
+
 .pmx-list-container{
     padding: 5px 0;
-    .pmx-list{
+    height: calc(100% - 88px);
+    max-height: calc(100% - 88px);
+    .pmx-list{ 
         padding: 0;
+        height: 100%;
+        max-height: 100%;
         .pmx-list-item{
             padding: 5px 0;
             min-height: 50px;
