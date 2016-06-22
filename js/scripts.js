@@ -106,9 +106,9 @@
 	            },
 	            YTTime: {
 	                PTToSeconds: function PTToSeconds(ptTime) {
-	                    var hoursReg = /PT(\d{0,})H\d{0,}M\d{0,}S/,
-	                        minutesReg = /PT(\d{0,}H)?(\d{0,})M\d{0,}S/,
-	                        secondsReg = /PT\d{0,}H?\d{0,}M(\d{0,})S/;
+	                    var hoursReg = /PT(\d{0,})H\d{0,}M?\d{0,}S?/,
+	                        minutesReg = /PT(\d{0,}H)?(\d{0,})M\d{0,}S?/,
+	                        secondsReg = /PT\d{0,}H?\d{0,}M?(\d{0,})S/;
 	
 	                    var hours = parseInt(ptTime.match(hoursReg) ? ptTime.replace(hoursReg, '$1') : 0),
 	                        minutes = parseInt(ptTime.replace(minutesReg, '$2')),
