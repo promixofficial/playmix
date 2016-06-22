@@ -111,8 +111,8 @@
 	                        secondsReg = /PT\d{0,}H?\d{0,}M?(\d{0,})S/;
 	
 	                    var hours = parseInt(ptTime.match(hoursReg) ? ptTime.replace(hoursReg, '$1') : 0),
-	                        minutes = parseInt(ptTime.replace(minutesReg, '$2')),
-	                        seconds = parseInt(ptTime.replace(secondsReg, '$1')),
+	                        minutes = parseInt(ptTime.replace(minutesReg, '$2')) || 0,
+	                        seconds = parseInt(ptTime.replace(secondsReg, '$1')) || 0,
 	                        total = hours * 3600 + minutes * 60 + seconds;
 	
 	                    return total;
