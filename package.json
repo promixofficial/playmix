@@ -1,37 +1,19 @@
 {
-  "name": "simple-seed",
-  "version": "1.0.0",
-  "description": "Simple project seed",
+  "name": "playmix",
+  "version": "2.0.0",
+  "description": "YouTube Floating Player",
+  "main": "main.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64  --prune=true --icon=img/icons/icon.icns --out=release-builds",
+    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32  --prune=true --icon=img/icons/pmx-logo-128.ico --out=release-builds ",
+    "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64  --prune=true --icon=img/icons/pmx-logo-128.png --out=release-builds",
+    "inst-win": "node ./scripts/createWinInstaller.js"
   },
   "author": "Akira Hanashiro",
   "license": "ISC",
   "devDependencies": {
-    "babel-core": "^6.5.2",
-    "babel-loader": "^6.2.3",
-    "babel-polyfill": "^6.3.14",
-    "babel-preset-es2015": "^6.5.0",
-    "babel-preset-stage-1": "^6.5.0",
-    "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^0.0.6",
-    "gulp-htmlmin": "^1.3.0",
-    "gulp-jsdoc3": "^0.2.1",
-    "gulp-live-server": "0.0.29",
-    "gulp-livereload": "^3.8.1",
-    "gulp-sass": "^2.0.4",
-    "gulp-util": "^3.0.6",
-    "ink-docstrap": "^1.1.4",
-    "jasmine-core": "^2.4.1",
-    "karma": "^0.13.22",
-    "karma-jasmine": "^0.3.8",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "phantomjs-prebuilt": "^2.1.7",
-    "require-dir": "^0.1",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "vinyl-transform": "^1.0.0",
-    "watchify": "^3.4.0",
-    "webpack": "^1.12.6"
+    "electron": "^1.7.8",
+    "electron-winstaller": "^2.6.3"
   }
 }
