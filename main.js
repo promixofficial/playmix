@@ -18,6 +18,10 @@ function createElectronShell(){
 
     win.loadURL(appUrl); 
 
+    win.on('closed', function () {
+	    win = null
+	})
+
 
 	globalShortcut.register('MediaPlayPause', Player.playPause );
 	globalShortcut.register('MediaPlayPause+CommandOrControl', Player.playPause );
@@ -62,3 +66,20 @@ var Player = {
 	}
 }
 
+
+
+
+
+
+
+app.on('window-all-closed', function () {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
+
+app.on('activate', function () {
+  if (win === null) {
+    createWindow()
+  }
+})
