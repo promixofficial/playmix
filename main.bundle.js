@@ -663,6 +663,7 @@ var PlayerComponent = (function () {
         this._playSubscription = __WEBPACK_IMPORTED_MODULE_3__services_event_emitter_service__["a" /* EventEmitterService */].get(__WEBPACK_IMPORTED_MODULE_2__services_utils_service__["b" /* YT_event */].PLAY).subscribe(this.play.bind(this));
         this._stopSubscription = __WEBPACK_IMPORTED_MODULE_3__services_event_emitter_service__["a" /* EventEmitterService */].get(__WEBPACK_IMPORTED_MODULE_2__services_utils_service__["b" /* YT_event */].STOP).subscribe(this.stop.bind(this));
         this._pauseSubscription = __WEBPACK_IMPORTED_MODULE_3__services_event_emitter_service__["a" /* EventEmitterService */].get(__WEBPACK_IMPORTED_MODULE_2__services_utils_service__["b" /* YT_event */].PAUSE).subscribe(this.pause.bind(this));
+        this._toggleSubscription = __WEBPACK_IMPORTED_MODULE_3__services_event_emitter_service__["a" /* EventEmitterService */].get('playpausetoggle').subscribe(this.PlaylistService.togglePlay.bind(this.PlaylistService));
     };
     PlayerComponent.prototype.ngOnDestroy = function () {
         this._playSubscription.unsubscribe();
@@ -696,12 +697,14 @@ var PlayerComponent = (function () {
         switch (this.player.getPlayerState()) {
             case __WEBPACK_IMPORTED_MODULE_2__services_utils_service__["b" /* YT_event */].PLAY:
                 this._playerState.next('playing');
+                this.PlaylistService.playerStatus = 'PLAYING';
                 break;
             case __WEBPACK_IMPORTED_MODULE_2__services_utils_service__["b" /* YT_event */].ENDED:
                 this._playerState.next('ended');
                 break;
             default:
                 this._playerState.next('paused');
+                this.PlaylistService.playerStatus = 'PAUSE';
                 break;
         }
     };
