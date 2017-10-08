@@ -1,0 +1,13 @@
+<div class="pmx-app-container" >
+  <app-header [(panelVisibility)]="panelVisibility" ></app-header>
+
+  <section class="pmx-app-body">
+    <app-list-video *ngIf="ListService.selected !== null && ListService.isPlaylistOpen" ></app-list-video>
+    <app-lists *ngIf="panelVisibility.isListsVisible"></app-lists>
+    <app-search *ngIf="panelVisibility.isSearchVisible"></app-search>
+
+    <app-player [videoId]="PlaylistService?.selected?.id" style="width: 100%;" ></app-player>
+
+    <app-playlist *ngIf="panelVisibility.isPlaylistVisible"></app-playlist>
+  </section>
+</div>

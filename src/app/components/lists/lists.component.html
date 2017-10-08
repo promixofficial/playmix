@@ -1,0 +1,18 @@
+<section class="lists-panel-container" >
+  <mat-toolbar color="primary">
+    Lists <br>
+    <button mat-button matTooltip="Create New List" (click)="ListService.addList()">
+      <i class="fa fa-plus" ></i>
+    </button>
+    <button mat-button matTooltip="Save Lists" (click)="BackupService.saveLists()">
+      <i class="fa fa-download" ></i>
+    </button>
+    <button mat-button matTooltip="Load Lists" (click)="BackupService.loadLists()">
+      <i class="fa fa-upload" ></i>
+    </button>
+  </mat-toolbar>
+
+  <app-list [list]="list" [actions]="actions" [selected]="ListService.selected" (onSelect)="selectList($event)" (onChange)="ListService.onChangeList()" [dropGroup]="['lists']" ></app-list>
+
+
+</section>

@@ -1,0 +1,17 @@
+<section class="lists-panel-container" >
+  <mat-toolbar color="primary">
+    <button mat-button matTooltip="Back" (click)="back()">
+      <i class="fa fa-chevron-left" ></i>
+    </button>
+    <div [matTooltip]="ListService.selected.name" class="cut-text" (click)="ListService.editList(ListService.selected)" >
+      {{ ListService.selected.name }}
+    </div>
+    <button mat-button matTooltip="Add All to Playlist" (click)="PlaylistService.concatPlaylist(ListService.selected)">
+      <i class="fa fa-share" ></i>
+    </button>
+  </mat-toolbar>
+
+  <app-list [list]="list" [actions]="actions" (onChange)="ListService.onChangeList(ListService.selected)" [dropGroup]="['list-video']" ></app-list>
+
+
+</section>

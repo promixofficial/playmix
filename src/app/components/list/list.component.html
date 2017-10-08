@@ -1,0 +1,31 @@
+<mat-list *ngIf="!canOrder" class="pmx-list"  >
+  <mat-list-item  class="panel panel-info" class="pmx-list-item" [class.selected]="selected === item" *ngFor="let item of list; let i = index" (click)="selectItem(item)"   dnd-draggable [dragEnabled]="true" [dropZones]="dropGroup">
+    <img width="40" height="40" draggable="false" class="pmx-list-image" [src]="getImage(item)" />
+    <div class="pmx-list-info" [matTooltip]="getTitle(item)">
+      <h3 class="pmx-list-item-title cut-text" >{{ getTitle(item) }}</h3>
+      <h4 class="pmx-list-item-subtitle" >
+        <span class="item-time" >{{ item?.prettyDuration }}</span>
+        <button click-stop-propagation [matTooltip]="action.name" mat-button *ngFor="let action of actions" (click)="action.func(item)" >
+          <i [title]="action.name" [class]="'fa fa-'+action.icon"></i>
+        </button>
+      </h4>
+    </div>
+  </mat-list-item>
+</mat-list>
+
+
+<mat-list *ngIf="canOrder" class="pmx-list" dnd-sortable-container [sortableData]="list" [dropZones]="dropGroup">
+  <mat-list-item  class="panel panel-info" class="pmx-list-item" [class.selected]="selected === item" *ngFor="let item of list; let i = index" dnd-sortable [sortableIndex]="i" (click)="selectItem(item)" (onDropSuccess)="onDrop()" >
+    <img width="40" height="40" draggable="false" class="pmx-list-image" [src]="getImage(item)" />
+    <div class="pmx-list-info" [matTooltip]="getTitle(item)">
+      <h3 class="pmx-list-item-title cut-text" >{{ getTitle(item) }}</h3>
+      <h4 class="pmx-list-item-subtitle" >
+        <span class="item-time" >{{ item?.prettyDuration }}</span>
+        <button click-stop-propagation [matTooltip]="action.name" mat-button *ngFor="let action of actions" (click)="action.func(item)" >
+          <i [title]="action.name" [class]="'fa fa-'+action.icon"></i>
+        </button>
+      </h4>
+    </div>
+  </mat-list-item>
+</mat-list>
+

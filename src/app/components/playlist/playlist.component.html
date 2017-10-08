@@ -1,0 +1,11 @@
+<section class="lists-panel-container" >
+  <mat-toolbar color="primary">
+    Playlist - {{PlaylistService.totalTime}}
+    <button mat-button matTooltip="Clear Playlist" (click)="PlaylistService.clearPlaylist()">
+      <i class="fa fa-eraser" ></i>
+    </button>
+  </mat-toolbar>
+
+  <app-list [list]="list" [actions]="actions" [selected]="PlaylistService.selected" (onSelect)="selectItem($event)" (onChange)="PlaylistService.onChangeList()" [dropGroup]="['playlist']" ></app-list>
+
+</section>

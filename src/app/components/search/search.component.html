@@ -1,0 +1,13 @@
+<section class="lists-panel-container" >
+  <mat-toolbar color="primary">
+    <input placeholder="Search" class="input-search" [(ngModel)]="searchText" (keyup.enter)="search()" >
+
+    <button mat-button (click)="search()">
+      <i class="fa fa-search" ></i>
+    </button>
+  </mat-toolbar>
+
+  <app-list [list]="searchResult" [actions]="actions" [dropGroup]="['videos-list']" [canOrder]="false" ></app-list>
+
+
+</section>

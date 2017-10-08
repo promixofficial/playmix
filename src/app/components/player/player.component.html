@@ -1,0 +1,37 @@
+<div class="player-section-container">
+
+  <div [class.is-hidden]="videoId === null" class="pmx-yt-container">
+    <div id="ytplayer" ></div>
+  </div>
+
+  <div class="pmx-no-video" *ngIf="!PlaylistService.selected" >
+    <span class="pmx-alert-1" >Empty Playlist</span>
+    <span class="pmx-alert-2" >Resize the window to show the controllers</span>
+  </div>
+
+  <!--button (click)="Playlist.play()">Send Play</button>
+  <button (click)="Playlist.pause()">Send Pause</button>
+  <button (click)="Playlist.stop()">Send Stop</button>
+
+  <p>Player status is: {{Playlist.playerStatus}}</p-->
+
+
+
+  <button mat-button matTooltip="Previous" *ngIf="PlaylistService.listLength > 1"  (click)="PlaylistService.play('previous')" class="md-primary player-btn player-btn-previous">
+    <i class="fa fa-step-backward" ></i>
+  </button>
+
+  <button mat-button matTooltip="Play"  (click)="PlaylistService.play()" *ngIf="PlaylistService.playerStatus !== 'PLAYING'" class="md-primary player-btn player-btn-play-pause">
+    <i class="fa fa-play" ></i>
+  </button>
+
+  <button mat-button matTooltip="Pause"  (click)="PlaylistService.pause()" *ngIf="PlaylistService.playerStatus === 'PLAYING'" class="md-primary player-btn player-btn-play-pause">
+    <i class="fa fa-pause" ></i>
+  </button>
+
+  <button mat-button matTooltip="Next" *ngIf="PlaylistService.listLength > 1"  (click)="PlaylistService.play('next')" class="md-primary player-btn player-btn-next">
+    <i class="fa fa-step-forward" ></i>
+  </button>
+
+
+</div>
