@@ -15,6 +15,7 @@ export class PlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   private _playSubscription: any;
   private _stopSubscription: any;
   private _pauseSubscription: any;
+  private _toggleSubscription: any;
 
   private player: any;
   private _playerState = new BehaviorSubject('paused');
@@ -46,6 +47,7 @@ export class PlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this._playSubscription = EventEmitterService.get(YT_event.PLAY).subscribe(this.play.bind(this));
     this._stopSubscription = EventEmitterService.get(YT_event.STOP).subscribe(this.stop.bind(this));
     this._pauseSubscription = EventEmitterService.get(YT_event.PAUSE).subscribe(this.pause.bind(this));
+    this._toggleSubscription = EventEmitterService.get('playpausetoggle').subscribe(this.PlaylistService.togglePlay.bind(this.PlaylistService));
   }
 
   ngOnDestroy() {
@@ -81,9 +83,9 @@ export class PlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private onStateUpdate() {
     switch (this.player.getPlayerState()) {
-      case YT_event.PLAY: this._playerState.next('playing'); break;
+      case YT_event.PLAY: this._playerState.next('playing'); this.PlaylistService.playerStatus = 'PLAYING'; break;
       case YT_event.ENDED: this._playerState.next('ended'); break;
-      default: this._playerState.next('paused'); break;
+      default: this._playerState.next('paused'); this.PlaylistService.playerStatus = 'PAUSE'; break;
     }
   }
 
