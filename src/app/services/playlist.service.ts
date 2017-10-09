@@ -230,7 +230,7 @@ export class PlaylistService {
     if (!this.isRepeat) {
       if ( !this.isLast || (this.isLast && this.isLooping) ) {
         //this.play('next');
-        document.getElementsByClassName('player-btn-next')[0].click();
+        document.getElementsByClassName('player-btn-next')[0]['click']();
       }
     } else {
       this.play();

@@ -22,7 +22,7 @@ export class BackupService {
     });
   }
 
-  loadLists (event) {
+  loadLists (event?) {
     var that = this;
     this.FileService.load((fileContent) => {
       if (fileContent) {
