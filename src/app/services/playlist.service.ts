@@ -229,8 +229,8 @@ export class PlaylistService {
   onEnd() {
     if (!this.isRepeat) {
       if ( !this.isLast || (this.isLast && this.isLooping) ) {
-        this.selectNext();
-        this.play();
+        //this.play('next');
+        document.getElementsByClassName('player-btn-next')[0].click();
       }
     } else {
       this.play();

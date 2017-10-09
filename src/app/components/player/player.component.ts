@@ -84,7 +84,7 @@ export class PlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   private onStateUpdate() {
     switch (this.player.getPlayerState()) {
       case YT_event.PLAY: this._playerState.next('playing'); this.PlaylistService.playerStatus = 'PLAYING'; break;
-      case YT_event.ENDED: this._playerState.next('ended'); break;
+      case YT_event.ENDED: this._playerState.next('ended'); this.PlaylistService.onEnd() ;break;
       default: this._playerState.next('paused'); this.PlaylistService.playerStatus = 'PAUSE'; break;
     }
   }
