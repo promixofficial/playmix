@@ -17,11 +17,11 @@ export class ListsComponent implements OnInit {
       icon: 'share',
       func: this.PlaylistService.concatPlaylist.bind(this.PlaylistService)
     },
-    {
+    /*{
       name: 'Rename List',
       icon: 'pencil',
       func: this.ListService.editList.bind(this.ListService)
-    },
+    },*/
     {
       name: 'Delete List',
       icon: 'trash',

@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
+import { ListService } from '../../services/list.service';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -10,7 +12,9 @@ export class HeaderComponent implements OnInit {
   @Input() panelVisibility;
   @Output() panelVisibilityChange = new EventEmitter();
 
-  constructor() { }
+  constructor(
+    private ListService: ListService
+  ) { }
 
   ngOnInit() {
   }
@@ -20,6 +24,7 @@ export class HeaderComponent implements OnInit {
     if(this.panelVisibility.isSearchVisible){
       this.panelVisibility.isListsVisible = false;
     }
+    this.ListService.isPlaylistOpen = false;
   }
 
   toggleLists() {
@@ -27,6 +32,7 @@ export class HeaderComponent implements OnInit {
     if(this.panelVisibility.isListsVisible){
       this.panelVisibility.isSearchVisible = false;
     }
+    this.ListService.isPlaylistOpen = false;
   }
 
   togglePlaylist() {

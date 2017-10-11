@@ -77,10 +77,10 @@ export class ListService {
 
 
   addList() {
-    const currentName = `List ${this.playlists.length + 1}`;
-    const name = prompt('List Name', currentName) || currentName;
+    const name = `List ${this.playlists.length + 1}`;
     this.playlists.unshift({name, id: (new Date()).getTime(), playlist: []});
     this.onChangeList();
+    this.selectAndOpen(this.playlists[0]);
   }
 
   removeList(list) {
@@ -94,14 +94,18 @@ export class ListService {
     }
   }
 
-  editList(list) {
-    const currentName = list.name
-    this.editingList = list;
-    list.name = prompt('List Name', currentName);
-    if (!list.name) {
-      list.name = currentName;
+  renameSelectedList(element) {
+    const selectedList = this.selected;
+    if (selectedList) {
+      const name = element.value;
+      const currentname = selectedList.name;
+      if (name) {
+        selectedList.name = name;
+        this.saveList();
+      } else {
+        element.value = currentname;
+      }
     }
-    this.saveList();
   }
 
   saveList() {

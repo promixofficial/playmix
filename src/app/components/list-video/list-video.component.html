@@ -1,11 +1,9 @@
 <section class="lists-panel-container" >
   <mat-toolbar color="primary">
-    <button mat-button matTooltip="Back" (click)="back()">
+    <button mat-button matTooltip="Back" (click)="back()" class="back-button">
       <i class="fa fa-chevron-left" ></i>
     </button>
-    <div [matTooltip]="ListService.selected.name" class="cut-text" (click)="ListService.editList(ListService.selected)" >
-      {{ ListService.selected.name }}
-    </div>
+    <input type="text" class="list-name" [value]="ListService.selected.name" (blur)="ListService.renameSelectedList(listName)" #listName />
     <button mat-button matTooltip="Add All to Playlist" (click)="PlaylistService.concatPlaylist(ListService.selected)">
       <i class="fa fa-share" ></i>
     </button>

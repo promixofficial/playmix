@@ -42,12 +42,6 @@ export class PlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.startPlayer();
-    this._videoId.subscribe(this.loadVideo.bind(this));
-    window['_ems'] = EventEmitterService.get.bind(EventEmitterService);
-    this._playSubscription = EventEmitterService.get(YT_event.PLAY).subscribe(this.play.bind(this));
-    this._stopSubscription = EventEmitterService.get(YT_event.STOP).subscribe(this.stop.bind(this));
-    this._pauseSubscription = EventEmitterService.get(YT_event.PAUSE).subscribe(this.pause.bind(this));
-    this._toggleSubscription = EventEmitterService.get('playpausetoggle').subscribe(this.PlaylistService.togglePlay.bind(this.PlaylistService));
   }
 
   ngOnDestroy() {
@@ -79,7 +73,15 @@ export class PlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     };
   }
 
-  private onPlayerReady() {}
+  private onPlayerReady() {
+    this._videoId.subscribe(this.loadVideo.bind(this));
+    window['_ems'] = EventEmitterService.get.bind(EventEmitterService);
+    this._playSubscription = EventEmitterService.get(YT_event.PLAY).subscribe(this.play.bind(this));
+    this._stopSubscription = EventEmitterService.get(YT_event.STOP).subscribe(this.stop.bind(this));
+    this._pauseSubscription = EventEmitterService.get(YT_event.PAUSE).subscribe(this.pause.bind(this));
+    this._toggleSubscription = EventEmitterService.get('playpausetoggle').subscribe(this.PlaylistService.togglePlay.bind(this.PlaylistService));
+    this.stop();
+  }
 
   private onStateUpdate() {
     switch (this.player.getPlayerState()) {
@@ -109,6 +111,7 @@ export class PlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       this.player.loadVideoById(videoId);
       this.onVideoChange.emit(videoId);
       this.videoIdChange.emit(videoId);
+      this.stop();
     }
   }
 
