@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatToolbarModule, MatInputModule, MatListModule, MatTooltipModule } from '@angular/material';
+import { MatButtonModule, MatToolbarModule, MatInputModule, MatListModule, MatTooltipModule, MatSnackBarModule, MatTabsModule } from '@angular/material';
 
 import { DndModule } from 'ng2-dnd';
 
@@ -48,6 +48,8 @@ import { ClickStopPropagationDirective } from './directives/click-stop-propagati
     MatInputModule,
     MatListModule,
     MatTooltipModule,
+    MatSnackBarModule,
+    MatTabsModule,
     DndModule.forRoot()
   ],
   providers: [

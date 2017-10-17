@@ -7,7 +7,12 @@
     </button>
   </mat-toolbar>
 
-  <app-list [list]="searchResult" [actions]="actions" [dropGroup]="['videos-list']" [canOrder]="false" ></app-list>
-
-
+  <mat-tab-group>
+    <mat-tab *ngIf="searchResult.length" [label]="'Videos (' + searchResult.length + ')'">
+      <app-list [list]="searchResult" [actions]="videoActions" [dropGroup]="['videos-list']" [canOrder]="false" ></app-list>
+    </mat-tab>
+    <mat-tab *ngIf="SearchService.playlists.length" [label]="'Playlists (' + SearchService.playlists.length + ')'">
+      <app-list [list]="SearchService.playlists" [actions]="playlistActions" [dropGroup]="['playlist-videos-list']" [canOrder]="false" ></app-list>
+    </mat-tab>
+  </mat-tab-group>
 </section>

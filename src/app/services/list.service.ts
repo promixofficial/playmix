@@ -77,8 +77,11 @@ export class ListService {
 
 
   addList() {
-    const name = `List ${this.playlists.length + 1}`;
-    this.playlists.unshift({name, id: (new Date()).getTime(), playlist: []});
+    this.createPlaylist('', []);
+  }
+
+  createPlaylist(name = `List ${this.playlists.length + 1}`, playlist = []) {
+    this.playlists.unshift({name, id: (new Date()).getTime(), playlist});
     this.onChangeList();
     this.selectAndOpen(this.playlists[0]);
   }

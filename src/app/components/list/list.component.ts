@@ -22,6 +22,9 @@ export class ListComponent implements OnInit {
   }
 
   getImage(item) {
+    if (item.thumbnail) {
+      return item.thumbnail;
+    }
     return item.title ? `https://img.youtube.com/vi/${item.id}/mqdefault.jpg` : '';
   }
 

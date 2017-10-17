@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import {MatSnackBar} from '@angular/material';
 
 import { SearchService } from '../../services/search.service';
 import { PlaylistService } from '../../services/playlist.service';
+import { ListService } from '../../services/list.service';
 
 @Component({
   selector: 'app-search',
@@ -11,9 +13,9 @@ import { PlaylistService } from '../../services/playlist.service';
 export class SearchComponent implements OnInit {
 
   searchText = '';
-  _searchResult = [1, 2, 3, 4, 5];
+  _searchResult = [];
 
-  actions = [
+  videoActions = [
     {
       name: 'Add to Playlist',
       icon: 'share',
@@ -21,12 +23,22 @@ export class SearchComponent implements OnInit {
     }
   ];
 
+  playlistActions = [
+    {
+      name: 'Save Playlist',
+      icon: 'save',
+      func: this.savePlaylist.bind(this)
+    }
+  ];
+
   get searchResult(){ return this.SearchService.list; }
   set searchResult(value){ this._searchResult = value; }
 
   constructor(
-    private SearchService: SearchService,
-    private PlaylistService: PlaylistService
+    public SearchService: SearchService,
+    private PlaylistService: PlaylistService,
+    private ListService: ListService,
+    private MatSnackBar: MatSnackBar
   ) { }
 
   ngOnInit() { }
@@ -36,6 +48,16 @@ export class SearchComponent implements OnInit {
       this.SearchService.searchText = this.searchText;
       this.SearchService.fetch();
     }
+  }
+
+  savePlaylist(playlist) {
+    this.SearchService.getPlaylistVideos(playlist['id'])
+      .then(videos => {
+        this.MatSnackBar.open('Playlist Saved', 'Ok', {
+          duration: 2000,
+        });
+        this.ListService.createPlaylist(playlist['title'], videos);
+      });
   }
 
 
