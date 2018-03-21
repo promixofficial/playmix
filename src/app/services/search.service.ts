@@ -96,6 +96,7 @@ export class SearchService {
     response.items.forEach(item => {
       const duration = timeToSeconds(item.contentDetails.duration);
       videos.push({
+        available: true,
         author: item.snippet.channelTitle,
         duration: duration,
         id: item.id,

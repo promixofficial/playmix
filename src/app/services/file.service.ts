@@ -20,8 +20,9 @@ export class FileService {
           'uniqueItems': true,
           'items': {
             'type': 'object',
-            'required': ['author', 'duration', 'id', 'prettyDuration', 'title', 'url'],
+            'required': ['author', 'duration', 'id', 'prettyDuration', 'title', 'url', 'available'],
             'properties': {
+              'available': {'type': 'boolean'},
               'author': {'type': 'string'},
               'duration': {'type': 'integer'},
               'id': {'type': 'string'},

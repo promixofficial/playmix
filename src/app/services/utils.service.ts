@@ -43,15 +43,14 @@ export class UtilsService {
     },
     YTTime : {
       PTToSeconds: function(ptTime){
-        const hoursReg = /PT(\d{0,})H\d{0,}M?\d{0,}S?/,
-          minutesReg = /PT(\d{0,}H)?(\d{0,})M\d{0,}S?/,
-          secondsReg = /PT\d{0,}H?\d{0,}M?(\d{0,})S/;
+        let total = 0;
+        const hours = ptTime.match(/(\d+)H/);
+        const minutes = ptTime.match(/(\d+)M/);
+        const seconds = ptTime.match(/(\d+)S/);
 
-        const hours = parseInt( ptTime.match(hoursReg) ? ptTime.replace(hoursReg, '$1') : 0, 10),
-          minutes = parseInt( ptTime.replace(minutesReg, '$2'), 10) || 0,
-          seconds = parseInt( ptTime.replace(secondsReg, '$1'), 10) || 0,
-          total = (hours * 3600) + (minutes * 60) + seconds;
-
+        total += hours ? parseInt(hours[1], 10) * 3600 : 0;
+        total += minutes ? parseInt(minutes[1], 10) * 60 : 0;
+        total += seconds ? parseInt(seconds[1], 10) : 0;
         return total;
       }
     }
