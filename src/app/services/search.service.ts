@@ -44,7 +44,7 @@ export class SearchService {
 
 
   chunk (arr, len) {
-    const chunks = [],
+    let chunks = [],
       i = 0,
       n = arr.length;
 
