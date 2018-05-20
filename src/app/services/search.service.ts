@@ -31,7 +31,28 @@ export class SearchService {
     return `https://www.googleapis.com/youtube/v3/playlistItems?part=id,snippet&playlistId=${this.playlistId}&maxResults=50&key=${this.key}`;
   }
   get playlistVideoListUrl(){
+    if (this.playlistVideosId.length > 50) {
+      const idsLists = this.chunk(this.playlistVideosId, 50),
+        URLsLists = [];
+      idsLists.forEach(list => {
+        URLsLists.push(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=${list.join(',')}&key=${this.key}`);
+      });
+      return URLsLists;
+    }
     return `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=${this.playlistVideosId.join(',')}&key=${this.key}`;
+  }
+
+
+  chunk (arr, len) {
+    const chunks = [],
+      i = 0,
+      n = arr.length;
+
+    while (i < n) {
+      chunks.push(arr.slice(i, i += len));
+    }
+
+    return chunks;
   }
   fetch() {
     this.videosId = [];
@@ -63,28 +84,45 @@ export class SearchService {
   }
 
   getVideos(videoListUrl) {
-    return fetch(videoListUrl)
-      .then(response => response.json())
-      .then(response => {
-        const data = this.processData(response);
-        return data;
+    if (typeof videoListUrl === 'string') {
+      videoListUrl = [videoListUrl];
+    }
+    return Promise.all(
+      videoListUrl.map(url => {
+        return fetch(url)
+          .then(response => response.json())
+          .then(response => {
+            const data = this.processData(response);
+            return data;
+          });
+      })
+    )
+      .then( (responsesList) => {
+        return [].concat(...responsesList);
       });
   }
 
-  getPlaylistVideos(playlistId) {
-    //this.playlistId = playlistId;
-    this.playlistVideosId = [];
-    return fetch(this.playlistUrl)
+  getPlaylistVideos(playlistId, pageToken = false, notFirst = false) {
+    if (!notFirst) {
+      this.playlistVideosId = [];
+    }
+
+    return fetch(this.playlistUrl + `${pageToken ? '&pageToken=' + pageToken : ''}`)
       .then(response => response.json())
       .then(response => {
+        const nextPageToken = response.nextPageToken;
         response['items'].forEach((item) => {
           this.playlistVideosId.push(item['snippet']['resourceId']['videoId']);
         });
-        return this.getVideos(this.playlistVideoListUrl)
-          .then(videos => {
-            this.playlistList = videos;
-            return this.playlistList;
-          });
+        if (nextPageToken) {
+          return this.getPlaylistVideos(playlistId, nextPageToken, true);
+        } else {
+          return this.getVideos(this.playlistVideoListUrl)
+            .then(videos => {
+              this.playlistList = videos;
+              return this.playlistList;
+            });
+        }
       });
   }
 
